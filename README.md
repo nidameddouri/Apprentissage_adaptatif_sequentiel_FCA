@@ -1,2 +1,2 @@
-# Apprentissage_adaptatif_s-quentiel_FCA
+# Apprentissage_adaptatif_sequentiel_FCA
 Apprentissage adaptatif et séquentiel fondé sur FCA
