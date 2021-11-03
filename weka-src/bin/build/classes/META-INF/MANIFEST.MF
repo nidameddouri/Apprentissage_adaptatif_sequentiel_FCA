@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Build-Jdk-Spec: 16
+Main-Class: weka.gui.GUIChooser
+Created-By: Maven Integration for Eclipse
+
