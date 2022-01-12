@@ -1,7 +1,7 @@
 # Customises the list of options given by the GenericObjectEditor
 # for various superclasses.
 #
-# Version: $Revision: 15257 $
+# Version: $Revision: 15258 $
 
 # Whether to use the dynamic approach or not (true|false). In case of
 # "false" the old GenericObjectEditor.props file is used:
@@ -22,6 +22,7 @@ weka.experiment.SplitEvaluator=\
 # Lists the Classifiers-Packages I want to choose from
 weka.classifiers.Classifier=\
  weka.classifiers.bayes,\
+ weka.classifiers.fca,\
  weka.classifiers.functions,\
  weka.classifiers.lazy,\
  weka.classifiers.meta,\
