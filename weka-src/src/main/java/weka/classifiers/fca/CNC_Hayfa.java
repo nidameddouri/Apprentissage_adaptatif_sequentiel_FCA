@@ -1236,7 +1236,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 							    Enumeration attEnumInformationMutuelle = inst.enumerateAttributes();
 							    while (attEnumInformationMutuelle.hasMoreElements()) {
 						      Attribute att = (Attribute) attEnumInformationMutuelle.nextElement();
-						      InformationMutuelle_Eval[att.index()] = m_InformationMutuelle.evaluateAttribute(att.index());
+						      InformationMutuelle_Eval[att.index()] = m_InformationMutuelle.evaluateAttribute(att.index());;
 								    		 
 									   }   
 								    
