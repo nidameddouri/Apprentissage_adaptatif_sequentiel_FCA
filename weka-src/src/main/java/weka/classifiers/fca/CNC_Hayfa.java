@@ -150,7 +150,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 	 /** the coefficient to use for each measure */
 	private int m_numcoeff;
     
-    // Une structure contenant les régles uniques
+    // Une structure contenant les rï¿½gles uniques
     public static ArrayList <Classification_Rule> m_classifierNC ;
     
     protected static InfoGainAttributeEval  m_InfoGainAttributeEval =  new InfoGainAttributeEval();
@@ -235,7 +235,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 	
 	
 	 
-    //public static final int coeff1 = 1;	// Default: Vote pondéré
+    //public static final int coeff1 = 1;	// Default: Vote pondï¿½rï¿½
     //public static final int coeff2 = 2;	// Vote majoritaire
     
     
@@ -259,11 +259,11 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 		//}
 	/**
      * Le choix de la technique du vote 
-     * en cas où nous avons retenu tout les valeurs nominales
+     * en cas oï¿½ nous avons retenu tout les valeurs nominales
      * de l'attribut qui maximise le gain Informationel.
      */
     
-    public static final int Vote_Pond = 1;	// Default: Vote pondéré
+    public static final int Vote_Pond = 1;	// Default: Vote pondï¿½rï¿½
     public static final int Vote_Maj = 2;	// Vote majoritaire
     
     
@@ -287,7 +287,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 		}
 	
 		/**
-	 * Un filtre permettant de transformer les données numériques en données nominales
+	 * Un filtre permettant de transformer les donnï¿½es numï¿½riques en donnï¿½es nominales
 	 */
 
 	protected static Filter m_Filter = new weka.filters.unsupervised.attribute.Discretize();
@@ -338,7 +338,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 		result.setValue(Field.PUBLISHER,"Nida MEDDOURI");
 		result.setValue(Field.ADDRESS, "Tunis, Tunisia");
 		result.setValue(Field.ORGANIZATION, "Research Unit on Programming, Algorithmics and Heuristics - URPAH");
-		result.setValue(Field.SCHOOL, "Faculty of Science of Tunis – FST ");
+		result.setValue(Field.SCHOOL, "Faculty of Science of Tunis ï¿½ FST ");
 		result.setValue(Field.COPYRIGHT,"(c) MEDDOURI. All rights reserved");
 		result.setValue(Field.NOTE,"Meddouri Software provides full range of Data Mining technologies\n"+ 
 				"For more information on licensing Data Mining technologies\n"+ 	
@@ -1277,20 +1277,20 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 																	    Attribute m_AttributeHRatio;
 																	    m_AttributeHRatio= inst.attribute(Utils.maxIndex(HRatio_Eval));
 																	    if(m_Debug){	
-																	          System.out.println("\nL'attribut retenu pour calculer sa fermeture: "+m_HRatio.name());
+																	          System.out.println("\nL'attribut retenu pour calculer sa fermeture: "+m_HRatio.name());;
 																	    	  System.out.println("\tAttribut d'indice "+m_AttributeHRatio.index());
 																	    	  System.out.println("\tNombre des differents valeurs possibles: "+inst.numDistinctValues(m_AttributeHRatio.index()));
 																	    	  for(int i=0; i<inst.numDistinctValues(m_AttributeHRatio.index()); i++)
 																	    		System.out.println("\t\tValeur "+(i+1)+" : "+inst.attribute(m_AttributeHRatio.index()).value(i));
 																	      }
-		/* Génération d'un classifieur de type CNC à partir de la fermeture 
+		/* Gï¿½nï¿½ration d'un classifieur de type CNC ï¿½ partir de la fermeture 
 	     * de la valeur nominale la plus pertinente (qui maximise le Support) 
 	     * de l'attribut nominal qui maximise le Gain Informationel
 	     */
 	    if(critere == 1) 
 	    {
 	    	if(m_Debug)
-	    		System.out.println("\nGénération d'un CNC à partir de la fermeture du valeur la plus pertinente de l'attribut retenu");
+	    		System.out.println("\nGï¿½nï¿½ration d'un CNC ï¿½ partir de la fermeture du valeur la plus pertinente de l'attribut retenu");
 			
 	    	int supportDistVal=0;
 			int indexBestDistVal = 0;
@@ -1306,7 +1306,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 				supportDistVal=0;
 				for(int j=0; j<inst.numInstances(); j++)
 				{
-					//System.out.print((j+1)+"iéme instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(i));
+					//System.out.print((j+1)+"iï¿½me instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(i));
 					if( inst.instance(j).stringValue(m_Attribute.index()) == inst.attribute(m_Attribute.index()).value(i))
 					{
 						supportDistVal++;
@@ -1327,7 +1327,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			if(m_Debug)
 				System.out.println("Meilleur DistinctValue: ( "+m_Attribute.value(indexBestDistVal)+" ) avec un support qui vaut: "+suppBestDistVal);
 			
-			//Extraires les exemples associés a cet attribut
+			//Extraires les exemples associï¿½s a cet attribut
 			ArrayList <Integer> FERM_exe = new ArrayList <Integer> ();	
 			ArrayList <String> FERM_att = new ArrayList <String> ();	
 	
@@ -1350,7 +1350,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 					System.out.println("\t\t"+FERM_exe.get(i)+" : "+inst.instance(FERM_exe.get(i)).toString());
 			}
 			
-			//Liste des attributs associés à la fermeture 
+			//Liste des attributs associï¿½s ï¿½ la fermeture 
 			String nl= "-null-";
 			for(int i=0; i<(int) inst.numAttributes()-1;i++)
 			{
@@ -1388,16 +1388,16 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 					System.out.print(FERM_att.get(i)+" , ");
 			}	
 			
-			///////////////Extraire la classe majoritaire associée////////////////////		
+			///////////////Extraire la classe majoritaire associï¿½e////////////////////		
 			int [] nbClasse = new int [inst.numClasses()];			
 			for(int k=0 ; k<inst.numClasses() ; k++)
 				nbClasse[k]=0;
 				
-			//Parcourir les exemples associée à ce concept
+			//Parcourir les exemples associï¿½e ï¿½ ce concept
 			for(int j=0;j<nbrInstFer;j++)
 				nbClasse[(int)inst.instance(FERM_exe.get(j)).classValue()]++;
 				
-			//Detertminer l'indice de la classe associée
+			//Detertminer l'indice de la classe associï¿½e
 			int indiceMax=0;
 			for(int i=0;i<inst.numClasses();i++)
 				if ( nbClasse[i] > nbClasse[indiceMax] )
@@ -1415,11 +1415,11 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			
 	    }
 	    
-	    /* Génération d'un classifieur de type CNC à partir de la fermeture 
+	    /* Gï¿½nï¿½ration d'un classifieur de type CNC ï¿½ partir de la fermeture 
 	     * de la valeur nominale la plus pertienente (qui maximise le Support) 
 	     * de l'attribut nominal qui maximise le Gain Informationel
 	     */
-	    //Génération d'un classifieur faible à partir de la fermeture du meilleur attribut retenu 'm_Attribute'
+	    //Gï¿½nï¿½ration d'un classifieur faible ï¿½ partir de la fermeture du meilleur attribut retenu 'm_Attribute'
 	    if(critere == 2)	// FMAN_GAIN_INFO_BA: Fermeture du Meilleur Attribut Nominal selon les classes
 	    {
 	    	int supportDistVal=0;
@@ -1432,14 +1432,14 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 				indexBestDistVal = 0;
 				suppBestDistVal = 0;
 				
-					//Extraction des indices d'instances etiquitées par la classe d'indice <cl>
+					//Extraction des indices d'instances etiquitï¿½es par la classe d'indice <cl>
 					ArrayList <Integer> IndTrainingbyClass = new ArrayList <Integer>();
 					IndTrainingbyClass.clear();
 					for(int i=0; i<inst.numInstances();i++)
 						if(inst.instance(i).classValue()==cl)
 							IndTrainingbyClass.add(i);
 					
-					//Extraction de l'échantillon d'instances etiquitées par la classe d'indice <cl>
+					//Extraction de l'ï¿½chantillon d'instances etiquitï¿½es par la classe d'indice <cl>
 					Instances TrainingbyClass = new Instances( inst, 0,IndTrainingbyClass.size()); 
 					TrainingbyClass.delete();
 				    for (int h=0; h< IndTrainingbyClass.size(); h++)
@@ -1458,7 +1458,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 							supportDistVal=0;
 							for(int j=0; j<TrainingbyClass.numInstances(); j++)
 							{
-								//System.out.print((j+1)+"iéme instance: "+TrainingbyClass.instance(j).stringValue(m_Attribute.index()) +" - "+ TrainingbyClass.attribute(m_Attribute.index()).value(i));
+								//System.out.print((j+1)+"iï¿½me instance: "+TrainingbyClass.instance(j).stringValue(m_Attribute.index()) +" - "+ TrainingbyClass.attribute(m_Attribute.index()).value(i));
 								if( TrainingbyClass.instance(j).stringValue(m_Attribute.index()) == TrainingbyClass.attribute(m_Attribute.index()).value(i))
 								{
 									supportDistVal++;
@@ -1479,7 +1479,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 						if(m_Debug)
 							System.out.println("Indice du meilleur DistinctValue("+m_Attribute.value(indexBestDistVal)+"): "+indexBestDistVal+" avec un support qui vaut: "+suppBestDistVal);
 						
-						//Extraires les exemples associés a cet attribut
+						//Extraires les exemples associï¿½s a cet attribut
 						ArrayList <Integer> FERM_exe = new ArrayList <Integer> ();	
 						ArrayList <String> FERM_att = new ArrayList <String> ();	
 				
@@ -1501,8 +1501,8 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 								System.out.println(FERM_exe.get(i)+" : "+TrainingbyClass.instance(FERM_exe.get(i)).toString());
 						}
 						
-						//Liste des attributs associés à la fermeture ??????????????????????
-						//System.out.println("Extraction des attributs associés à cette fermeture");
+						//Liste des attributs associï¿½s ï¿½ la fermeture ??????????????????????
+						//System.out.println("Extraction des attributs associï¿½s ï¿½ cette fermeture");
 						String nl= "-null-";
 						for(int i=0; i< (int) inst.numAttributes()-1;i++)
 						{
@@ -1548,7 +1548,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			}
 	    }
 
-	    /* Génération d'un classifieur de type CNC à partir de la fermeture 
+	    /* Gï¿½nï¿½ration d'un classifieur de type CNC ï¿½ partir de la fermeture 
 	     * des valeurs nominales de l'attribut nominal qui maximise le Gain Informationel
 	     */
 	    if(critere == 3)
@@ -1561,7 +1561,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 				
 				for(int j=0; j<inst.numInstances(); j++)
 				{
-					//System.out.print((j+1)+"iéme instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
+					//System.out.print((j+1)+"iï¿½me instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
 					if( inst.instance(j).stringValue(m_Attribute.index()) == inst.attribute(m_Attribute.index()).value(indDistVal))
 					{
 						instDistVal.add(j);
@@ -1573,7 +1573,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 				
 				if(instDistVal.size()!=0)
 				{
-					//Extraires les exemples associés a cet attribut
+					//Extraires les exemples associï¿½s a cet attribut
 					ArrayList <Integer> FERM_exe = new ArrayList <Integer> ();	
 					ArrayList <String> FERM_att = new ArrayList <String> ();	
 			
@@ -1595,8 +1595,8 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 							System.out.println(FERM_exe.get(i)+" : "+inst.instance(FERM_exe.get(i)).toString());
 					}
 					
-					//Liste des attributs associés à la fermeture ??????????????????????
-					//System.out.println("Extraction des attributs associés à cette fermeture");
+					//Liste des attributs associï¿½s ï¿½ la fermeture ??????????????????????
+					//System.out.println("Extraction des attributs associï¿½s ï¿½ cette fermeture");
 					String nl= "-null-";
 					for(int i=0; i< (int) inst.numAttributes()-1;i++)
 					{
@@ -1632,18 +1632,18 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 					}
 					
 					
-					//Extraire la classe majoritaire associée//		
+					//Extraire la classe majoritaire associï¿½e//		
 					int [] nbClasse = new int[inst.numClasses()];			
 					for(int k=0;k<inst.numClasses();k++)
 						nbClasse[k]=0;
 						
-					//Parcourir les exemples associée à ce concept
+					//Parcourir les exemples associï¿½e ï¿½ ce concept
 					//System.out.println();
 					for(int j=0;j<nbrInstFer;j++)
 						nbClasse[(int)inst.instance(FERM_exe.get(j)).classValue()]++;
 						
 						
-					//Detertminer l'indice de la classe associé
+					//Detertminer l'indice de la classe associï¿½
 					int indiceMax=0;
 					for(int i=0;i<inst.numClasses();i++)
 						if(nbClasse[i]>nbClasse[indiceMax])
@@ -1670,7 +1670,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			
 	    }
 	       
-	    /* Génération d'un classifieur de type CNC à partir de la fermeture 
+	    /* Gï¿½nï¿½ration d'un classifieur de type CNC ï¿½ partir de la fermeture 
 	     * des valeurs nominales de l'attribut nominal qui maximise le gain ratio
 	     */
 	    
@@ -1684,7 +1684,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 				
 				for(int j=0; j<inst.numInstances(); j++)
 				{
-					//System.out.print((j+1)+"iéme instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
+					//System.out.print((j+1)+"iï¿½me instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
 					if( inst.instance(j).stringValue(m_AttributeRatio.index()) == inst.attribute(m_AttributeRatio.index()).value(indDistVal))
 					{
 						instDistVal.add(j);
@@ -1696,7 +1696,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 				
 				if(instDistVal.size()!=0)
 				{
-					//Extraires les exemples associés a cet attribut
+					//Extraires les exemples associï¿½s a cet attribut
 					ArrayList <Integer> FERM_exe = new ArrayList <Integer> ();	
 					ArrayList <String> FERM_att = new ArrayList <String> ();	
 			
@@ -1718,8 +1718,8 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 							System.out.println(FERM_exe.get(i)+" : "+inst.instance(FERM_exe.get(i)).toString());
 					}
 					
-					//Liste des attributs associés à la fermeture ??????????????????????
-					//System.out.println("Extraction des attributs associés à cette fermeture");
+					//Liste des attributs associï¿½s ï¿½ la fermeture ??????????????????????
+					//System.out.println("Extraction des attributs associï¿½s ï¿½ cette fermeture");
 					String nl= "-null-";
 					for(int i=0; i< (int) inst.numAttributes()-1;i++)
 					{
@@ -1755,18 +1755,18 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 					}
 					
 					
-					//Extraire la classe majoritaire associée//		
+					//Extraire la classe majoritaire associï¿½e//		
 					int [] nbClasse = new int[inst.numClasses()];			
 					for(int k=0;k<inst.numClasses();k++)
 						nbClasse[k]=0;
 						
-					//Parcourir les exemples associée à ce concept
+					//Parcourir les exemples associï¿½e ï¿½ ce concept
 					//System.out.println();
 					for(int j=0;j<nbrInstFer;j++)
 						nbClasse[(int)inst.instance(FERM_exe.get(j)).classValue()]++;
 						
 						
-					//Detertminer l'indice de la classe associé
+					//Detertminer l'indice de la classe associï¿½
 					int indiceMax=0;
 					for(int i=0;i<inst.numClasses();i++)
 						if(nbClasse[i]>nbClasse[indiceMax])
@@ -1798,7 +1798,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
  //}
     
   
-  /* Génération d'un classifieur de type CNC à partir de la fermeture 
+  /* Gï¿½nï¿½ration d'un classifieur de type CNC ï¿½ partir de la fermeture 
    * des valeurs nominales de l'attribut nominal qui maximise le ONER
    */
   if(critere == 5) 
@@ -1811,7 +1811,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			
 			for(int j=0; j<inst.numInstances(); j++)
 			{
-				//System.out.print((j+1)+"iéme instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
+				//System.out.print((j+1)+"iï¿½me instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
 				if( inst.instance(j).stringValue(m_AttributeONE_R.index()) == inst.attribute(m_AttributeONE_R.index()).value(indDistVal))
 				{
 					instDistVal.add(j);
@@ -1823,7 +1823,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			
 			if(instDistVal.size()!=0)
 			{
-				//Extraires les exemples associés a cet attribut
+				//Extraires les exemples associï¿½s a cet attribut
 				ArrayList <Integer> FERM_exe = new ArrayList <Integer> ();	
 				ArrayList <String> FERM_att = new ArrayList <String> ();	
 		
@@ -1845,8 +1845,8 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 						System.out.println(FERM_exe.get(i)+" : "+inst.instance(FERM_exe.get(i)).toString());
 				}
 				
-				//Liste des attributs associés à la fermeture ??????????????????????
-				//System.out.println("Extraction des attributs associés à cette fermeture");
+				//Liste des attributs associï¿½s ï¿½ la fermeture ??????????????????????
+				//System.out.println("Extraction des attributs associï¿½s ï¿½ cette fermeture");
 				String nl= "-null-";
 				for(int i=0; i< (int) inst.numAttributes()-1;i++)
 				{
@@ -1882,18 +1882,18 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 				}
 				
 				
-				//Extraire la classe majoritaire associée//		
+				//Extraire la classe majoritaire associï¿½e//		
 				int [] nbClasse = new int[inst.numClasses()];			
 				for(int k=0;k<inst.numClasses();k++)
 					nbClasse[k]=0;
 					
-				//Parcourir les exemples associée à ce concept
+				//Parcourir les exemples associï¿½e ï¿½ ce concept
 				//System.out.println();
 				for(int j=0;j<nbrInstFer;j++)
 					nbClasse[(int)inst.instance(FERM_exe.get(j)).classValue()]++;
 					
 					
-				//Detertminer l'indice de la classe associé
+				//Detertminer l'indice de la classe associï¿½
 				int indiceMax=0;
 				for(int i=0;i<inst.numClasses();i++)
 					if(nbClasse[i]>nbClasse[indiceMax])
@@ -1919,7 +1919,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 		}
 		
   }
-  /* Génération d'un classifieur de type CNC à partir de la fermeture 
+  /* Gï¿½nï¿½ration d'un classifieur de type CNC ï¿½ partir de la fermeture 
    * des valeurs nominales de l'attribut nominal qui maximise la correlation
    */
   if(critere == 6) 
@@ -1932,7 +1932,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			
 			for(int j=0; j<inst.numInstances(); j++)
 			{
-				//System.out.print((j+1)+"iéme instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
+				//System.out.print((j+1)+"iï¿½me instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
 				if( inst.instance(j).stringValue(m_AttributeCorrelation1.index()) == inst.attribute(m_AttributeCorrelation1.index()).value(indDistVal))
 				{
 					instDistVal.add(j);
@@ -1944,7 +1944,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			
 			if(instDistVal.size()!=0)
 			{
-				//Extraires les exemples associés a cet attribut
+				//Extraires les exemples associï¿½s a cet attribut
 				ArrayList <Integer> FERM_exe = new ArrayList <Integer> ();	
 				ArrayList <String> FERM_att = new ArrayList <String> ();	
 		
@@ -1966,8 +1966,8 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 						System.out.println(FERM_exe.get(i)+" : "+inst.instance(FERM_exe.get(i)).toString());
 				}
 				
-				//Liste des attributs associés à la fermeture ??????????????????????
-				//System.out.println("Extraction des attributs associés à cette fermeture");
+				//Liste des attributs associï¿½s ï¿½ la fermeture ??????????????????????
+				//System.out.println("Extraction des attributs associï¿½s ï¿½ cette fermeture");
 				String nl= "-null-";
 				for(int i=0; i< (int) inst.numAttributes()-1;i++)
 				{
@@ -2003,18 +2003,18 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 				}
 				
 				
-				//Extraire la classe majoritaire associée//		
+				//Extraire la classe majoritaire associï¿½e//		
 				int [] nbClasse = new int[inst.numClasses()];			
 				for(int k=0;k<inst.numClasses();k++)
 					nbClasse[k]=0;
 					
-				//Parcourir les exemples associée à ce concept
+				//Parcourir les exemples associï¿½e ï¿½ ce concept
 				//System.out.println();
 				for(int j=0;j<nbrInstFer;j++)
 					nbClasse[(int)inst.instance(FERM_exe.get(j)).classValue()]++;
 					
 					
-				//Detertminer l'indice de la classe associé
+				//Detertminer l'indice de la classe associï¿½
 				int indiceMax=0;
 				for(int i=0;i<inst.numClasses();i++)
 					if(nbClasse[i]>nbClasse[indiceMax])
@@ -2051,7 +2051,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			
 			for(int j=0; j<inst.numInstances(); j++)
 			{
-				//System.out.print((j+1)+"iéme instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
+				//System.out.print((j+1)+"iï¿½me instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
 				if( inst.instance(j).stringValue(m_AttributeSymmetrical.index()) == inst.attribute(m_AttributeSymmetrical.index()).value(indDistVal))
 				{
 					instDistVal.add(j);
@@ -2063,7 +2063,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			
 			if(instDistVal.size()!=0)
 			{
-				//Extraires les exemples associés a cet attribut
+				//Extraires les exemples associï¿½s a cet attribut
 				ArrayList <Integer> FERM_exe = new ArrayList <Integer> ();	
 				ArrayList <String> FERM_att = new ArrayList <String> ();	
 		
@@ -2085,8 +2085,8 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 						System.out.println(FERM_exe.get(i)+" : "+inst.instance(FERM_exe.get(i)).toString());
 				}
 				
-				//Liste des attributs associés à la fermeture ??????????????????????
-				//System.out.println("Extraction des attributs associés à cette fermeture");
+				//Liste des attributs associï¿½s ï¿½ la fermeture ??????????????????????
+				//System.out.println("Extraction des attributs associï¿½s ï¿½ cette fermeture");
 				String nl= "-null-";
 				for(int i=0; i< (int) inst.numAttributes()-1;i++)
 				{
@@ -2122,18 +2122,18 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 				}
 				
 				
-				//Extraire la classe majoritaire associée//		
+				//Extraire la classe majoritaire associï¿½e//		
 				int [] nbClasse = new int[inst.numClasses()];			
 				for(int k=0;k<inst.numClasses();k++)
 					nbClasse[k]=0;
 					
-				//Parcourir les exemples associée à ce concept
+				//Parcourir les exemples associï¿½e ï¿½ ce concept
 				//System.out.println();
 				for(int j=0;j<nbrInstFer;j++)
 					nbClasse[(int)inst.instance(FERM_exe.get(j)).classValue()]++;
 					
 					
-				//Detertminer l'indice de la classe associé
+				//Detertminer l'indice de la classe associï¿½
 				int indiceMax=0;
 				for(int i=0;i<inst.numClasses();i++)
 					if(nbClasse[i]>nbClasse[indiceMax])
@@ -2170,7 +2170,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			
 			for(int j=0; j<inst.numInstances(); j++)
 			{
-				//System.out.print((j+1)+"iéme instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
+				//System.out.print((j+1)+"iï¿½me instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
 				if( inst.instance(j).stringValue(m_AttributeClassifierAttributeEval.index()) == inst.attribute(m_AttributeClassifierAttributeEval.index()).value(indDistVal))
 				{
 					instDistVal.add(j);
@@ -2182,7 +2182,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			
 			if(instDistVal.size()!=0)
 			{
-				//Extraires les exemples associés a cet attribut
+				//Extraires les exemples associï¿½s a cet attribut
 				ArrayList <Integer> FERM_exe = new ArrayList <Integer> ();	
 				ArrayList <String> FERM_att = new ArrayList <String> ();	
 		
@@ -2204,8 +2204,8 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 						System.out.println(FERM_exe.get(i)+" : "+inst.instance(FERM_exe.get(i)).toString());
 				}
 				
-				//Liste des attributs associés à la fermeture ??????????????????????
-				//System.out.println("Extraction des attributs associés à cette fermeture");
+				//Liste des attributs associï¿½s ï¿½ la fermeture ??????????????????????
+				//System.out.println("Extraction des attributs associï¿½s ï¿½ cette fermeture");
 				String nl= "-null-";
 				for(int i=0; i< (int) inst.numAttributes()-1;i++)
 				{
@@ -2241,18 +2241,18 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 				}
 				
 				
-				//Extraire la classe majoritaire associée//		
+				//Extraire la classe majoritaire associï¿½e//		
 				int [] nbClasse = new int[inst.numClasses()];			
 				for(int k=0;k<inst.numClasses();k++)
 					nbClasse[k]=0;
 					
-				//Parcourir les exemples associée à ce concept
+				//Parcourir les exemples associï¿½e ï¿½ ce concept
 				//System.out.println();
 				for(int j=0;j<nbrInstFer;j++)
 					nbClasse[(int)inst.instance(FERM_exe.get(j)).classValue()]++;
 					
 					
-				//Detertminer l'indice de la classe associé
+				//Detertminer l'indice de la classe associï¿½
 				int indiceMax=0;
 				for(int i=0;i<inst.numClasses();i++)
 					if(nbClasse[i]>nbClasse[indiceMax])
@@ -2288,7 +2288,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			
 			for(int j=0; j<inst.numInstances(); j++)
 			{
-				//System.out.print((j+1)+"iéme instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
+				//System.out.print((j+1)+"iï¿½me instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
 				if( inst.instance(j).stringValue(m_AttributeReliefFAttributeEval.index()) == inst.attribute(m_AttributeReliefFAttributeEval.index()).value(indDistVal))
 				{
 					instDistVal.add(j);
@@ -2300,7 +2300,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			
 			if(instDistVal.size()!=0)
 			{
-				//Extraires les exemples associés a cet attribut
+				//Extraires les exemples associï¿½s a cet attribut
 				ArrayList <Integer> FERM_exe = new ArrayList <Integer> ();	
 				ArrayList <String> FERM_att = new ArrayList <String> ();	
 		
@@ -2322,8 +2322,8 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 						System.out.println(FERM_exe.get(i)+" : "+inst.instance(FERM_exe.get(i)).toString());
 				}
 				
-				//Liste des attributs associés à la fermeture ??????????????????????
-				//System.out.println("Extraction des attributs associés à cette fermeture");
+				//Liste des attributs associï¿½s ï¿½ la fermeture ??????????????????????
+				//System.out.println("Extraction des attributs associï¿½s ï¿½ cette fermeture");
 				String nl= "-null-";
 				for(int i=0; i< (int) inst.numAttributes()-1;i++)
 				{
@@ -2359,18 +2359,18 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 				}
 				
 				
-				//Extraire la classe majoritaire associée//		
+				//Extraire la classe majoritaire associï¿½e//		
 				int [] nbClasse = new int[inst.numClasses()];			
 				for(int k=0;k<inst.numClasses();k++)
 					nbClasse[k]=0;
 					
-				//Parcourir les exemples associée à ce concept
+				//Parcourir les exemples associï¿½e ï¿½ ce concept
 				//System.out.println();
 				for(int j=0;j<nbrInstFer;j++)
 					nbClasse[(int)inst.instance(FERM_exe.get(j)).classValue()]++;
 					
 					
-				//Detertminer l'indice de la classe associé
+				//Detertminer l'indice de la classe associï¿½
 				int indiceMax=0;
 				for(int i=0;i<inst.numClasses();i++)
 					if(nbClasse[i]>nbClasse[indiceMax])
@@ -2407,7 +2407,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			
 			for(int j=0; j<inst.numInstances(); j++)
 			{
-				//System.out.print((j+1)+"iéme instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
+				//System.out.print((j+1)+"iï¿½me instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
 				if( inst.instance(j).stringValue(m_AttributePrincipalComponents.index()) == inst.attribute(m_AttributePrincipalComponents.index()).value(indDistVal))
 				{
 					instDistVal.add(j);
@@ -2419,7 +2419,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			
 			if(instDistVal.size()!=0)
 			{
-				//Extraires les exemples associés a cet attribut
+				//Extraires les exemples associï¿½s a cet attribut
 				ArrayList <Integer> FERM_exe = new ArrayList <Integer> ();	
 				ArrayList <String> FERM_att = new ArrayList <String> ();	
 		
@@ -2441,8 +2441,8 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 						System.out.println(FERM_exe.get(i)+" : "+inst.instance(FERM_exe.get(i)).toString());
 				}
 				
-				//Liste des attributs associés à la fermeture ??????????????????????
-				//System.out.println("Extraction des attributs associés à cette fermeture");
+				//Liste des attributs associï¿½s ï¿½ la fermeture ??????????????????????
+				//System.out.println("Extraction des attributs associï¿½s ï¿½ cette fermeture");
 				String nl= "-null-";
 				for(int i=0; i< (int) inst.numAttributes()-1;i++)
 				{
@@ -2478,18 +2478,18 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 				}
 				
 				
-				//Extraire la classe majoritaire associée//		
+				//Extraire la classe majoritaire associï¿½e//		
 				int [] nbClasse = new int[inst.numClasses()];			
 				for(int k=0;k<inst.numClasses();k++)
 					nbClasse[k]=0;
 					
-				//Parcourir les exemples associée à ce concept
+				//Parcourir les exemples associï¿½e ï¿½ ce concept
 				//System.out.println();
 				for(int j=0;j<nbrInstFer;j++)
 					nbClasse[(int)inst.instance(FERM_exe.get(j)).classValue()]++;
 					
 					
-				//Detertminer l'indice de la classe associé
+				//Detertminer l'indice de la classe associï¿½
 				int indiceMax=0;
 				for(int i=0;i<inst.numClasses();i++)
 					if(nbClasse[i]>nbClasse[indiceMax])
@@ -2525,7 +2525,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			
 			for(int j=0; j<inst.numInstances(); j++)
 			{
-				//System.out.print((j+1)+"iéme instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
+				//System.out.print((j+1)+"iï¿½me instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
 				if( inst.instance(j).stringValue(m_AttributeInformationMutuelle.index()) == inst.attribute(m_AttributeInformationMutuelle.index()).value(indDistVal))
 				{
 					instDistVal.add(j);
@@ -2537,7 +2537,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			
 			if(instDistVal.size()!=0)
 			{
-				//Extraires les exemples associés a cet attribut
+				//Extraires les exemples associï¿½s a cet attribut
 				ArrayList <Integer> FERM_exe = new ArrayList <Integer> ();	
 				ArrayList <String> FERM_att = new ArrayList <String> ();	
 		
@@ -2559,8 +2559,8 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 						System.out.println(FERM_exe.get(i)+" : "+inst.instance(FERM_exe.get(i)).toString());
 				}
 				
-				//Liste des attributs associés à la fermeture ??????????????????????
-				////System.out.println("Extraction des attributs associés à cette fermeture");
+				//Liste des attributs associï¿½s ï¿½ la fermeture ??????????????????????
+				////System.out.println("Extraction des attributs associï¿½s ï¿½ cette fermeture");
 				String nl= "-null-";
 				for(int i=0; i< (int) inst.numAttributes()-1;i++)
 				{
@@ -2597,19 +2597,19 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 				}
 				
 				
-				//Extraire la classe majoritaire associée//		
+				//Extraire la classe majoritaire associï¿½e//		
 						
 				int [] nbClasse = new int[inst.numClasses()];			
 				for(int k=0;k<inst.numClasses();k++)
 					nbClasse[k]=0;
 					
-				//Parcourir les exemples associée à ce concept
+				//Parcourir les exemples associï¿½e ï¿½ ce concept
 				////System.out.println();
 				for(int j=0;j<nbrInstFer;j++)
 					nbClasse[(int)inst.instance(FERM_exe.get(j)).classValue()]++;
 					
 					
-				//Detertminer l'indice de la classe associé
+				//Detertminer l'indice de la classe associï¿½
 				int indiceMax=0;
 				for(int i=0;i<inst.numClasses();i++)
 					if(nbClasse[i]>nbClasse[indiceMax])
@@ -2646,7 +2646,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			
 			for(int j=0; j<inst.numInstances(); j++)
 			{
-				//System.out.print((j+1)+"iéme instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
+				//System.out.print((j+1)+"iï¿½me instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
 				if( inst.instance(j).stringValue(m_AttributeCorreRatio.index()) == inst.attribute(m_AttributeCorreRatio.index()).value(indDistVal))
 				{
 					instDistVal.add(j);
@@ -2658,7 +2658,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			
 			if(instDistVal.size()!=0)
 			{
-				//Extraires les exemples associés a cet attribut
+				//Extraires les exemples associï¿½s a cet attribut
 				ArrayList <Integer> FERM_exe = new ArrayList <Integer> ();	
 				ArrayList <String> FERM_att = new ArrayList <String> ();	
 		
@@ -2680,8 +2680,8 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 						System.out.println(FERM_exe.get(i)+" : "+inst.instance(FERM_exe.get(i)).toString());
 				}
 				
-				//Liste des attributs associés à la fermeture ??????????????????????
-				////System.out.println("Extraction des attributs associés à cette fermeture");
+				//Liste des attributs associï¿½s ï¿½ la fermeture ??????????????????????
+				////System.out.println("Extraction des attributs associï¿½s ï¿½ cette fermeture");
 				String nl= "-null-";
 				for(int i=0; i< (int) inst.numAttributes()-1;i++)
 				{
@@ -2718,19 +2718,19 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 				}
 				
 				
-				//Extraire la classe majoritaire associée//		
+				//Extraire la classe majoritaire associï¿½e//		
 						
 				int [] nbClasse = new int[inst.numClasses()];			
 				for(int k=0;k<inst.numClasses();k++)
 					nbClasse[k]=0;
 					
-				//Parcourir les exemples associée à ce concept
+				//Parcourir les exemples associï¿½e ï¿½ ce concept
 				////System.out.println();
 				for(int j=0;j<nbrInstFer;j++)
 					nbClasse[(int)inst.instance(FERM_exe.get(j)).classValue()]++;
 					
 					
-				//Detertminer l'indice de la classe associé
+				//Detertminer l'indice de la classe associï¿½
 				int indiceMax=0;
 				for(int i=0;i<inst.numClasses();i++)
 					if(nbClasse[i]>nbClasse[indiceMax])
@@ -2768,7 +2768,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			
 			for(int j=0; j<inst.numInstances(); j++)
 			{
-				//System.out.print((j+1)+"iéme instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
+				//System.out.print((j+1)+"iï¿½me instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
 				if( inst.instance(j).stringValue(m_AttributeHRatio.index()) == inst.attribute(m_AttributeHRatio.index()).value(indDistVal))
 				{
 					instDistVal.add(j);
@@ -2780,7 +2780,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			
 			if(instDistVal.size()!=0)
 			{
-				//Extraires les exemples associés a cet attribut
+				//Extraires les exemples associï¿½s a cet attribut
 				ArrayList <Integer> FERM_exe = new ArrayList <Integer> ();	
 				ArrayList <String> FERM_att = new ArrayList <String> ();	
 		
@@ -2802,8 +2802,8 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 						System.out.println(FERM_exe.get(i)+" : "+inst.instance(FERM_exe.get(i)).toString());
 				}
 				 
-				//Liste des attributs associés à la fermeture ??????????????????????
-				////System.out.println("Extraction des attributs associés à cette fermeture");
+				//Liste des attributs associï¿½s ï¿½ la fermeture ??????????????????????
+				////System.out.println("Extraction des attributs associï¿½s ï¿½ cette fermeture");
 				String nl= "-null-";
 				for(int i=0; i< (int) inst.numAttributes()-1;i++)
 				{
@@ -2840,19 +2840,19 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 				}
 				
 				
-				//Extraire la classe majoritaire associée//		
+				//Extraire la classe majoritaire associï¿½e//		
 						
 				int [] nbClasse = new int[inst.numClasses()];			
 				for(int k=0;k<inst.numClasses();k++)
 					nbClasse[k]=0;
 					
-				//Parcourir les exemples associée à ce concept
+				//Parcourir les exemples associï¿½e ï¿½ ce concept
 				////System.out.println();
 				for(int j=0;j<nbrInstFer;j++)
 					nbClasse[(int)inst.instance(FERM_exe.get(j)).classValue()]++;
 					
 					
-				//Detertminer l'indice de la classe associé
+				//Detertminer l'indice de la classe associï¿½
 				int indiceMax=0;
 				for(int i=0;i<inst.numClasses();i++)
 					if(nbClasse[i]>nbClasse[indiceMax])
