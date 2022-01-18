@@ -1264,7 +1264,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 																    Enumeration attEnumHRatio = inst.enumerateAttributes();
 																    while (attEnumHRatio.hasMoreElements()) {
 															      Attribute att = (Attribute) attEnumHRatio.nextElement();
-															      HRatio_Eval[att.index()] = m_HRatio .evaluateAttribute(att.index());
+															      HRatio_Eval[att.index()] = m_HRatio .evaluateAttribute(att.index());;
 																	    		 
 																		   }   
 																	    
