@@ -159,6 +159,11 @@ public class CaNC extends AbstractClassifier implements
     return result;
   }
 
+  protected String defaultFilterString() {
+
+    return "weka.filters.supervised.attribute.Discretize -R first-last -precision 6";
+  }
+
   /**
    * Class for storing store a 1R rule.
    */
@@ -614,9 +619,16 @@ public class CaNC extends AbstractClassifier implements
 
     Vector<Option> newVector = new Vector<Option>(1);
 
+    //ajout depuis FilteredClassfier
+    newVector.addElement(new Option(
+      "\tFull class name of filter to use, followed\n"
+        + "\tby filter options.\n"
+        + "\tdefault: \"" + defaultFilterString() + "\"",
+      "F", 1, "-F <filter specification>"));
+
     newVector
       .addElement(new Option(string, "B", 1, "-B <minimum bucket size>"));
-    
+
 //    newVector.addElement(new Option(
 //			  "\t Full class name of filter to use, followed\n"
 //					  + "\t by filter options.\n"
@@ -643,8 +655,10 @@ public class CaNC extends AbstractClassifier implements
    * </pre>
    * 
    * <pre>
-   * bla bla bla filter;
-   * bla bla bla (default: bla bla bla).
+   * -F &lt;filter specification&gt;
+   *  Full class name of filter to use, followed
+   *  by filter options.
+   *  default: "weka.filters.supervised.attribute.Discretize -R first-last -precision 6"
    * </pre>
    * 
    * <!-- options-end -->
@@ -664,18 +678,16 @@ public class CaNC extends AbstractClassifier implements
     
     // Same for filter
     String filterString = Utils.getOption('F', options);
-    if (filterString.length() > 0) 
-    {
-      String [] filterSpec = Utils.splitOptions(filterString);
-      if (filterSpec.length == 0)
-    	  throw new IllegalArgumentException("Invalid filter specification string");
-      String filterName = filterSpec[0];
-      filterSpec[0] = "";
-      setFilter((Filter) Utils.forName(Filter.class, filterName, filterSpec));
-    } 
-    else 
-      setFilter(new weka.filters.supervised.attribute.Discretize());
-
+    if (filterString.length() <= 0) {
+      filterString = defaultFilterString();
+    }
+    String[] filterSpec = Utils.splitOptions(filterString);
+    if (filterSpec.length == 0) {
+      throw new IllegalArgumentException("Invalid filter specification string");
+    }
+    String filterName = filterSpec[0];
+    filterSpec[0] = "";
+    setFilter((Filter) Utils.forName(Filter.class, filterName, filterSpec));
     super.setOptions(options);
   }
 
@@ -691,7 +703,6 @@ public class CaNC extends AbstractClassifier implements
 
     options.add("-B");
     options.add("" + m_minBucketSize);
-    
     options.add(getFilterSpec());
 
     Collections.addAll(options, super.getOptions());
