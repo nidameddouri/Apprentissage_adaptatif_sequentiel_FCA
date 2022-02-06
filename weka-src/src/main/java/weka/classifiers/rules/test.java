@@ -129,16 +129,16 @@ public class test extends AbstractClassifier implements
     result.enable(Capability.NUMERIC_ATTRIBUTES);
     //modif pour CANC
     result.enable(Capability.BINARY_ATTRIBUTES);
-    //result.enable(Capability.DATE_ATTRIBUTES);
-    result.enable(Capability.STRING_ATTRIBUTES);
-    result.enable(Capability.RELATIONAL_ATTRIBUTES);
-    result.enable(Capability.MISSING_VALUES);
+    //result.enable(Capability.DATE_ATTRIBUTES); //update by Nida
+    //result.enable(Capability.STRING_ATTRIBUTES); //update by Nida
+    //result.enable(Capability.RELATIONAL_ATTRIBUTES); //update by Nida
+    //result.enable(Capability.MISSING_VALUES); //update by Nida
 
     // class
     result.enable(Capability.NOMINAL_CLASS);
-    result.enable(Capability.NUMERIC_CLASS);
-    result.enable(Capability.DATE_CLASS);
-    result.enable(Capability.MISSING_CLASS_VALUES);
+    //result.enable(Capability.NUMERIC_CLASS); //update by Nida
+    //result.enable(Capability.DATE_CLASS); //update by Nida
+    //result.enable(Capability.MISSING_CLASS_VALUES); //update by Nida
 
     // instances
     result.setMinimumNumberInstances(0);
