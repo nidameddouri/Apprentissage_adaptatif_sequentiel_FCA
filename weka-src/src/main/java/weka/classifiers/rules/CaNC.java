@@ -44,6 +44,8 @@ import weka.core.TechnicalInformation;
 import weka.core.TechnicalInformation.Field;
 import weka.core.TechnicalInformation.Type;
 import weka.filters.Filter;
+//Pas sûr de garder AttributeSelection
+import weka.filters.supervised.attribute.AttributeSelection;
 import weka.core.TechnicalInformationHandler;
 import weka.core.Utils;
 import weka.core.WekaException;
@@ -97,8 +99,10 @@ public class CaNC extends AbstractClassifier implements
 	 */
 
 	//protected static Filter m_Filter = new weka.filters.unsupervised.attribute.Discretize();
-	protected static Filter m_Filter = new weka.filters.supervised.attribute.Discretize();
-	
+	protected Filter m_Filter = new AttributeSelection();
+  /** The instance structure of the filtered instances */
+  protected Instances m_FilteredInstances;
+
 	public void setFilter(Filter filter) {
 		m_Filter = filter;		
 		}
@@ -107,18 +111,21 @@ public class CaNC extends AbstractClassifier implements
   	return m_Filter;     
   	}
   
+  /**
+   * Gets the filter specification string, which contains the class name of the
+   * filter and any options to the filter
+   *
+   * @return the filter string.
+   */
   protected String getFilterSpec() {
-      
-      Filter c = getFilter();
-      if (c instanceof OptionHandler) {
-          return c.getClass().getName() + " "
-                  + Utils.joinOptions(((OptionHandler)c).getOptions());
-      }
-      return c.getClass().getName();
+
+    Filter c = getFilter();
+    if (c instanceof OptionHandler) {
+      return c.getClass().getName() + " "
+        + Utils.joinOptions(((OptionHandler) c).getOptions());
+    }
+    return c.getClass().getName();
   }
-  
-  /** The instance structure of the filtered instances */
-  protected Instances m_FilteredInstances;
   
 
   /**
@@ -320,7 +327,7 @@ public class CaNC extends AbstractClassifier implements
    * 
    * @return the capabilities of this classifier
    */
-  @Override
+  /*@Override
   public Capabilities getCapabilities() {
     Capabilities result = super.getCapabilities();
     result.disableAll();
@@ -336,6 +343,32 @@ public class CaNC extends AbstractClassifier implements
     result.enable(Capability.NOMINAL_CLASS);
     result.enable(Capability.BINARY_CLASS);
     result.enable(Capability.MISSING_CLASS_VALUES);
+
+    return result;
+  }*/
+
+  /**
+   * Returns default capabilities of the classifier.
+   *
+   * @return the capabilities of this classifier
+   */
+  public Capabilities getCapabilities() {
+    Capabilities result;
+
+    if (getFilter() == null)
+      result = super.getCapabilities();
+    else {
+      result = getFilter().getCapabilities();
+    }
+
+    // the filtered classifier always needs a class
+    result.disable(Capability.NO_CLASS);
+
+    // set dependencies
+    for (Capability cap : Capability.values())
+      result.enableDependency(cap);
+
+    result.setOwner(this);
 
     return result;
   }
@@ -626,8 +659,7 @@ public class CaNC extends AbstractClassifier implements
         + "\tdefault: \"" + defaultFilterString() + "\"",
       "F", 1, "-F <filter specification>"));
 
-    newVector
-      .addElement(new Option(string, "B", 1, "-B <minimum bucket size>"));
+    newVector.addElement(new Option(string, "B", 1, "-B <minimum bucket size>"));
 
 //    newVector.addElement(new Option(
 //			  "\t Full class name of filter to use, followed\n"
@@ -638,6 +670,13 @@ public class CaNC extends AbstractClassifier implements
 //					  "F", 1, "-F <filter specification>"));
 
     newVector.addAll(Collections.list(super.listOptions()));
+
+    if (getFilter() instanceof OptionHandler) {
+      newVector.addElement(new Option("", "", 0, "\nOptions specific to filter "
+        + getFilter().getClass().getName() + ":"));
+      newVector
+        .addAll(Collections.list(((OptionHandler) getFilter()).listOptions()));
+    }
 
     return newVector.elements();
   }
@@ -703,11 +742,15 @@ public class CaNC extends AbstractClassifier implements
 
     options.add("-B");
     options.add("" + m_minBucketSize);
-    options.add(getFilterSpec());
+    options.add("" + getFilterSpec());
 
     Collections.addAll(options, super.getOptions());
 
     return options.toArray(new String[0]);
+  }
+
+  public String filterTipText() {
+    return "The filter to be used.";
   }
 
   /**
