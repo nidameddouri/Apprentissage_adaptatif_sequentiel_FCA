@@ -21,16 +21,22 @@
 
 package weka.classifiers.rules;
 
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.Vector;
 
 import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Sourcable;
 import weka.core.Attribute;
 import weka.core.Capabilities;
+import weka.core.DistanceFunction;
+import weka.core.EuclideanDistance;
 import weka.core.Capabilities.Capability;
 import weka.core.Instance;
 import weka.core.Instances;
+import weka.core.Option;
 import weka.core.RevisionUtils;
+import weka.core.SelectedTag;
 import weka.core.Utils;
 import weka.core.WeightedInstancesHandler;
 
@@ -144,6 +150,95 @@ public class test extends AbstractClassifier implements
     result.setMinimumNumberInstances(0);
 
     return result;
+  }
+
+
+  /**
+   * Returns an enumeration describing the available options.
+   * 
+   * @return an enumeration of all the available options.
+   */
+  @Override
+  public Enumeration<Option> listOptions() {
+    Vector<Option> result = new Vector<Option>();
+
+    result.addElement(new Option(
+      "\tFull class name of filter to use, followed\n"
+        + "\tby filter options.\n"
+        + "\teg: \"weka.filters.unsupervised.attribute.Remove -V -R 1,2\"\n"
+        + "\t(default: weka.filters.MultiFilter with\n"
+        + "\tweka.filters.unsupervised.attribute.ReplaceMissingValues)", "F",
+      1, "-F <filter specification>"));
+
+    return result.elements();
+  }
+
+  /**
+   * Parses a given list of options.
+   * <p/>
+   * 
+   * <!-- options-start --> Valid options are:
+   * <p/>
+   * 
+   * <pre>
+   * -F &lt;filter specification&gt;
+   *  Full class name of filter to use, followed
+   *  by filter options.
+   *  eg: "weka.filters.unsupervised.attribute.Remove -V -R 1,2"
+   *  (default: weka.filters.MultiFilter with
+   *  weka.filters.unsupervised.attribute.ReplaceMissingValues)
+   * </pre>
+   * 
+   * <pre>
+   * -c &lt;the class index&gt;
+   *  The class index. (default = last)
+   * </pre>
+   * 
+   * <!-- options-end -->
+   * 
+   * @param options the list of options as an array of strings
+   * @throws Exception if an option is not supported
+   */
+  @Override
+  public void setOptions(String[] options) throws Exception {
+    String tmpStr;
+
+    tmpStr = Utils.getOption('F', options);
+    if (tmpStr.length() > 0) 
+    {
+      String[] filterSpec = Utils.splitOptions(tmpStr);
+      if (filterSpec.length == 0)
+        throw new IllegalArgumentException("Invalid filter specification string");
+      String filterName = filterSpec[0];
+      filterSpec[0] = "";
+      setFilter((Filter) Utils.forName(Filter.class, filterName, filterSpec));
+    } 
+    else 
+      setFilter(new weka.filters.supervised.attribute.Discretize());    
+    
+    m_Debug = Utils.getFlag('D', options);
+    
+    super.setOptions(options);
+  }
+
+  /**
+   * Gets the current settings of the Associator.
+   * 
+   * @return an array of strings suitable for passing to setOptions
+   */
+  @Override
+  public String[] getOptions() {
+    Vector<String> result = new Vector<String>();
+    
+    result.add("-F");
+    result.add("" + getFilterSpec());
+    
+    if (m_Debug)
+        result.add("-D");
+
+    Collections.addAll(result, super.getOptions());
+
+    return result.toArray(new String[result.size()]);
   }
 
   /**
