@@ -37,6 +37,7 @@ import weka.core.Instances;
 import weka.core.Option;
 import weka.core.RevisionUtils;
 import weka.core.SelectedTag;
+import weka.core.Tag;
 import weka.core.Utils;
 import weka.core.WeightedInstancesHandler;
 
@@ -119,6 +120,84 @@ public class test extends AbstractClassifier implements
     return "Class for building and using a 0-R classifier. Predicts the mean "
       + "(for a numeric class) or the mode (for a nominal class).";
   }
+  
+  /**
+	 * L'apprentissage du concept nominal
+	 */
+  
+	public static final int CONCEPT_LEARNING_FMAN = 1;  // Default: Fermeture de Meilleur Attribut Nominal
+  
+  private int NominalConceptLearning = CONCEPT_LEARNING_FMAN;
+  
+  public static final Tag [] TAGS_NominalConceptLearning = {
+  	new Tag(CONCEPT_LEARNING_FMAN, "Closure of best nominal attribut"),
+  	};
+  
+  public SelectedTag getConceptLearning() {	
+  	return new SelectedTag(NominalConceptLearning, TAGS_NominalConceptLearning);	
+  	}
+  
+  public void setConceptLearning(SelectedTag agregation) {
+  	if (agregation.getTags() == TAGS_NominalConceptLearning)
+  		this.NominalConceptLearning = agregation.getSelectedTag().getID();
+  	}
+  
+  /**
+   * Fermeture du Meilleur Attribut Nominal : choix de(s) valeur(s) nominale(s)
+   */
+  
+  public static final int PM_GAIN_INFO = 1;	// Default: La valeur la plus pertinente (support) de l'attribut qui maximise le Gain Informationel
+  public static final int PM_GAIN_RATIO = 2;	// Les valeurs nominales de l'attribut qui maximise LE GAIN RATIO
+  public static final int PM_Correlation = 3; // les valeurs nominales qui  maximise le correlation attribut eval
+  public static final int PM_HRATIO = 4;
+  public static final int PM_InformationMutuelle = 5;
+  public static final int PM_Symmetrical = 6; // les valeurs nominales qui maximise de symmetrical
+  private int pertinenceMeasure = PM_GAIN_INFO;
+  
+  public static final Tag [] TAGS_pertinenceMeasure = {
+			new Tag(PM_GAIN_INFO, "Gain Info"),
+			new Tag(PM_GAIN_RATIO, "Gain Ratio"),
+			new Tag(PM_Correlation,"Correlation"),
+			new Tag(PM_HRATIO,"H-RATIO"),
+			new Tag(PM_InformationMutuelle,"Information Mutuelle"),
+			new Tag(PM_Symmetrical,"Symmetrical")};
+	    
+	    public SelectedTag getPertinence_Measure() {
+	    	return new SelectedTag(pertinenceMeasure, TAGS_pertinenceMeasure);
+			
+			}
+
+		public void setPertinence_Measure(SelectedTag agregation) {
+			if (agregation.getTags() == TAGS_pertinenceMeasure)
+				this.pertinenceMeasure = agregation.getSelectedTag().getID();
+			}
+		
+		/**
+	     * Le choix de la technique du vote 
+	     * en cas o� nous avons retenu tout les valeurs nominales
+	     * de l'attribut qui maximise le gain Informationel.
+	     */
+	    
+	    public static final int Vote_Maj = 1;	// Vote majoritaire
+	    public static final int Vote_Plur = 2;  // Vote pluralité
+	        
+	    private int VoteMethods = Vote_Maj;
+	   
+	    
+	    public static final Tag [] TAGS_VoteMethods = {
+			new Tag(Vote_Maj, "Majority Vote"),
+			new Tag(Vote_Plur, "Plurality Vote"),
+			};
+
+	       
+	    public SelectedTag getVote_Methods() {
+			return new SelectedTag(VoteMethods, TAGS_VoteMethods);
+			}
+
+		public void setVote_Methods(SelectedTag agregation) {
+			if (agregation.getTags() == TAGS_VoteMethods)
+				this.VoteMethods = agregation.getSelectedTag().getID();
+			}
 
   /**
    * Returns default capabilities of the classifier.
@@ -201,8 +280,58 @@ public class test extends AbstractClassifier implements
    */
   @Override
   public void setOptions(String[] options) throws Exception {
-    String tmpStr;
-
+    boolean  runString;
+    
+    //Ajout de pertinence Mesure
+    
+    runString = Utils.getFlag("PM_GAIN_INFO", options);
+	if (runString)
+		pertinenceMeasure = PM_GAIN_INFO;
+	
+	runString = Utils.getFlag("PM_GAIN_RATIO", options);
+	if (runString)
+		pertinenceMeasure = PM_GAIN_RATIO;
+	
+	runString = Utils.getFlag("PM_Correlation", options);
+	if (runString)
+		pertinenceMeasure = PM_Correlation;
+	
+	runString = Utils.getFlag("PM_HRATIO", options);
+	if (runString)
+		pertinenceMeasure = PM_HRATIO;
+	
+	runString = Utils.getFlag("PM_InformationMutuelle", options);
+	if (runString)
+		pertinenceMeasure = PM_InformationMutuelle;
+	
+	runString = Utils.getFlag("PM_Symmetrical", options);
+	if (runString)
+		pertinenceMeasure = PM_Symmetrical;
+					
+	switch (pertinenceMeasure) { 
+	 case PM_GAIN_INFO                :	         pertinenceMeasure = 1; break;
+	 case PM_GAIN_RATIO               :          pertinenceMeasure = 2; break;
+	 case PM_Correlation              :          pertinenceMeasure = 3; break;
+	 case PM_HRATIO                   :          pertinenceMeasure = 4; break;
+	 case PM_InformationMutuelle      :          pertinenceMeasure = 5; break;
+	 case PM_Symmetrical              :          pertinenceMeasure = 6; break;
+     }
+	
+	// Les techniques de vote dans le cas de la fermeture des valeurs 
+	// nominales de l'attribut qui m'aximise le gain informationel
+	runString = Utils.getFlag("Vote_Maj", options);
+	if ((pertinenceMeasure == PM_GAIN_INFO) && runString)
+		VoteMethods = Vote_Maj;
+	runString = Utils.getFlag("Vote_Plur", options);
+	if ((pertinenceMeasure == PM_GAIN_INFO) && runString)
+		VoteMethods = Vote_Plur;
+						
+	switch (VoteMethods) {
+		case Vote_Plur  :	    VoteMethods = 1; break;
+		case Vote_Maj   :		VoteMethods = 2; break;
+	}	 
+	
+	String tmpStr;
     tmpStr = Utils.getOption('F', options);
     if (tmpStr.length() > 0) 
     {
@@ -229,6 +358,40 @@ public class test extends AbstractClassifier implements
   @Override
   public String[] getOptions() {
     Vector<String> result = new Vector<String>();
+    
+    switch(NominalConceptLearning) 
+	  {
+	  case CONCEPT_LEARNING_FMAN: 	result.add("-fman"); break;
+	  }
+
+	  if(NominalConceptLearning == CONCEPT_LEARNING_FMAN)
+		  switch(pertinenceMeasure) 
+		  {
+		  case PM_GAIN_INFO:	
+			  result.add("-giMultiV");
+			  switch(VoteMethods) 
+			  {
+			  case Vote_Maj:	result.add("-majVote"); break;
+			  case Vote_Plur:	result.add("-plurVote"); break;
+			  }
+			  break;
+			  
+		  case PM_GAIN_RATIO:	
+			  result.add("-giRatioBestV"); 
+			  break;
+			  
+		  case PM_Correlation:
+		      result.add("-giCorrelationBestV");break;
+		      
+		  case PM_HRATIO:
+			  result.add("-giHRATIO");break;
+			  
+		  case PM_InformationMutuelle:
+			  result.add("-giInformationMutuelle");break;
+		  
+		  case PM_Symmetrical:
+		      result.add("-giSymmetricalBestV");break;
+		  }
     
     result.add("-F");
     result.add("" + getFilterSpec());
