@@ -1,130 +1,4 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
-Afficher plus
-EventDispatchThread.java
-11 Ko
-Image
-Aureo — 22/01/2022
-OPTIONS
-numDecimalPlaces -- The number of decimal places to be used for the output of numbers in the model.
-
-batchSize -- The preferred number of instances to process if batch prediction is being performed. More or fewer instances may be provided, but this gives implementations a chance to specify a preferred batch size.
-
-debug -- If set to true, classifier may output additional info to the console.
-
-generation -- If set to rules, Classifier Nominal Concept may output in the log file all rules generated.
-
-doNotCheckCapabilities -- If set, classifier capabilities are not checked before classifier is built (Use with caution to reduce runtime).
-LA VIE CETTE SALE RACE — 22/01/2022
-Image
-Image
-LA VIE CETTE SALE RACE — 22/01/2022
-Genericobject :
-LA VIE CETTE SALE RACE — 22/01/2022
-Image
-LA VIE CETTE SALE RACE — 22/01/2022
-Image
-Image
-Aureo — 22/01/2022
-On a 2 couples de warning. Tout les warning concerne les options. Les 2 premières surviennent lorsque nous sélectionnons CANC dans weka. Les 2 autres lorsqu'on run. Une exception est jeté par la fonction CheckForRemainingOption dans utils.java.CheckForRemainingOptions. la totalité des options on été écrit dans cette exception ce qui nous laisse penser que setOptions et getOptions dans CANC ne fonctionne plus de la bonne manière. Bien que les méthodes soit très différentes nous les comparons avec les autres algorithmes implémenté dans weka pour tenter de comprendre ce qui doit être modifié. nous avons aussi cherché si les options dans les filtres n'ont plus le même fonctionnement 
-Aureo — 22/01/2022
-à check
--le fonctionnement des options dans la doc de weka
--la même chose sur la doc de java et ses différences depuis la version 7
--la différence entre setOptions et getOptions sur les autres algorithmes de weka
- 
-LA VIE CETTE SALE RACE — 22/01/2022
-Bonjour,
-Nous avons continuer a travailler sur le projet, et nous avons remarquer que ceci :
-
--On a 2 couples de warning.
-
--Tout les warning concerne les options weka.
-
--Les 2 premières surviennent lorsque nous sélectionnons CANC dans weka.
-
--Une exception est jeté par la fonction CheckForRemainingOption dans utils.java.CheckForRemainingOptions, la totalité des options on été écrit dans cette exception ce qui nous laisse penser que setOptions et getOptions dans CANC ne fonctionne plus de la bonne manière.
-
--Bien que les méthodes soit très différentes nous les comparons avec les autres algorithmes implémenté dans weka tels que "bayes" pour tenter de comprendre ce qui doit être modifié, nous avons aussi cherché si les options dans les filtres n'ont plus le même fonctionnement
-
-pour la prochaine fois nous allons  :
-- comprendre le fonctionnement des options dans la doc de weka,
-- comprendre la doc de java et ses différences depuis la version 7,
-- la différence entre setOptions et getOptions sur les autres algorithmes de weka
-
-Cordialement
-ACUNA Mithian
-BOURNONVILLE Aurélien
-LA VIE CETTE SALE RACE — 02/02/2022
-https://waikato.github.io/weka-wiki/history/
-Aureo — 02/02/2022
-Image
-Aureo — 04/02/2022
-Att il a push ses modifs ?
-Aureo — 04/02/2022
-Ok j'ai trouvé les changements mais y'a un truc que je comprends pas
-Aureo — 04/02/2022
-https://github.com/nidameddouri/Apprentissage_adaptatif_sequentiel_FCA.git
-Aureo — 04/02/2022
-https://text-compare.com/fr/
-Text Compare! est un outil diff en ligne qui trouve les différences...
-Text Compare! est un outil diff en ligne qui trouve les différences entre deux documents de texte. Collez et comparez.
-Aureo — 04/02/2022
-option ZeroR
-Image
-objectif CaNC
-Image
-OneR
-Image
-CANC ancien (les options à avoir à la toute fin :hype:)
-Image
-LA VIE CETTE SALE RACE — 04/02/2022
-Ligne 200 Discretize pour FilteredClassifier
-Aureo — 04/02/2022
-meta / FilteredClassifier
-:hype:
-Aureo — 05/02/2022
-Bon je m'y prends un peu tard mais go bosser FCA
-LA VIE CETTE SALE RACE — 05/02/2022
-déso je me suis reveiller tard
-du coup je vais bdd psk :sueur:
-Aureo — Hier à 13:23
-Ajouter chaque paramètre énoncé sur Skype par le prof. Les paramètres se trouvent dans CaNC, mettre à joue à chaque fois getOptions, setOptions et listOptions à l'ajout de chaque paramètre
-plus ou moins ligne 230 dans CANC
-paramètres actuels de test
-Image
-Image
-Image
-Image
-Respectivement Vote, conceptLearning et pertinenceMeasure à ajouter
-Aureo — Hier à 14:15
-FMAN_Measure semble être similaire à pertinenceMeasure d'après CNC
-Aureo — Hier à 14:36
-conceptLearning serait lié à FTAN
-en gros ftan permt de choisir si on prend best values ou all values, conceptLearning dans l'ancien CANC permettrait de choisis pertinent attribute ou all attribute
-par contre pour active attribute je ne sais pas commence l'avoir
-Aureo — Hier à 14:39
-On a h-ratio, gain ratio, correlation, symmetrical, info mutuelle, et info gain j'imagine qu'il faut prendre best value, donc tout les paramètre de pertinenceMeasure sont dans FMAN Measure dans l'ancien CNC
-Pour ce qui est de Vote on a majority Vote dans CNC et 2 sorte de Plurality Vote dans CANC donc faudra en choisir un des deux en comprenant lequel serait le cas général s'il y en a un :sueur:
-Voilà donc je reprends à 15h30 parce que quelque trucs à faire mais quand je reviens j'essaye de tout implémenter correctement et je lui expliquerai comment j'ai pris chaque paramètre
-LA VIE CETTE SALE RACE — Hier à 14:41
-:okbg:
-LA VIE CETTE SALE RACE — Aujourd’hui à 16:13
-/*
- *   This program is free software: you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation, either version 3 of the License, or
- *   (at your option) any later version.
- *
-Afficher plus
-message.txt
-17 Ko
-﻿
-/*
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation, either version 3 of the License, or
@@ -192,7 +66,7 @@ import weka.filters.Filter;
  * @author Eibe Frank (eibe@cs.waikato.ac.nz)
  * @version $Revision: 12024 $
  */
-public class test extends AbstractClassifier implements
+public class testConceptLearning extends AbstractClassifier implements
   WeightedInstancesHandler, Sourcable {
 
   /** for serialization */
@@ -247,16 +121,24 @@ public class test extends AbstractClassifier implements
       + "(for a numeric class) or the mode (for a nominal class).";
   }
   
+  //MODÈLE
+  
   /**
 	 * L'apprentissage du concept nominal
 	 */
   
-	public static final int CONCEPT_LEARNING_FMAN = 1;  // Default: Fermeture de Meilleur Attribut Nominal
+	public static final int CONCEPT_LEARNING_FMAN_BESTV = 1;
+	public static final int CONCEPT_LEARNING_FMAN_MULTIV = 2;
+	public static final int CONCEPT_LEARNING_FTAN_BESTV = 3;
+	public static final int CONCEPT_LEARNING_FTAN_MULTIV = 4;
   
-  private int NominalConceptLearning = CONCEPT_LEARNING_FMAN;
+  private int NominalConceptLearning = CONCEPT_LEARNING_FMAN_BESTV;
   
   public static final Tag [] TAGS_NominalConceptLearning = {
-  	new Tag(CONCEPT_LEARNING_FMAN, "Closure of best nominal attribut"),
+  	new Tag(CONCEPT_LEARNING_FMAN_BESTV, "Closure best values of pertinent attributes"), // -BestV et -fman
+  	new Tag(CONCEPT_LEARNING_FMAN_MULTIV, "Closure all values of pertinent attributes"), // -MultiV et -fman
+  	new Tag(CONCEPT_LEARNING_FTAN_BESTV, "Closure best values of all attributes"), // -BestV et -ftan
+  	new Tag(CONCEPT_LEARNING_FTAN_MULTIV, "Closure all values of all attributes") // -MultiV et -ftan
   	};
   
   public SelectedTag getConceptLearning() {	
@@ -324,7 +206,6 @@ public class test extends AbstractClassifier implements
 			if (agregation.getTags() == TAGS_VoteMethods)
 				this.VoteMethods = agregation.getSelectedTag().getID();
 			}
-
   /**
    * Returns default capabilities of the classifier.
    * 
@@ -408,6 +289,18 @@ public class test extends AbstractClassifier implements
   public void setOptions(String[] options) throws Exception {
     boolean  runString;
     
+ // Fermeture du meilleur attribut nominal	
+ 			runString = Utils.getFlag("CONCEPT_LEARNING_FMAN_BESTV", options);
+ 			if (runString)
+ 				NominalConceptLearning = CONCEPT_LEARNING_FMAN_BESTV; // Experimental
+ 			
+ 			switch (NominalConceptLearning) { 
+ 			case CONCEPT_LEARNING_FMAN_BESTV    :    NominalConceptLearning = 1; break;
+ 			case CONCEPT_LEARNING_FMAN_MULTIV   :    NominalConceptLearning = 2; break;
+ 			case CONCEPT_LEARNING_FTAN_BESTV    :    NominalConceptLearning = 3; break;
+ 			case CONCEPT_LEARNING_FTAN_MULTIV   :    NominalConceptLearning = 4; break;
+ 			}
+    
     //Ajout de pertinence Mesure
     
     runString = Utils.getFlag("PM_GAIN_INFO", options);
@@ -487,37 +380,46 @@ public class test extends AbstractClassifier implements
     
     switch(NominalConceptLearning) 
 	  {
-	  case CONCEPT_LEARNING_FMAN: 	result.add("-fman"); break;
+	  case CONCEPT_LEARNING_FMAN_BESTV: 	result.add("-fman"); break;
+	  case CONCEPT_LEARNING_FMAN_MULTIV:    result.add("-fman"); break;
+	  case CONCEPT_LEARNING_FTAN_BESTV:     result.add("-ftan"); result.add("-BestV"); break;
+	  case CONCEPT_LEARNING_FTAN_MULTIV:    result.add("-ftan"); result.add("-MultiV"); break;
 	  }
-
-	  if(NominalConceptLearning == CONCEPT_LEARNING_FMAN)
-		  switch(pertinenceMeasure) 
-		  {
-		  case PM_GAIN_INFO:	
-			  result.add("-giMultiV");
-			  switch(VoteMethods) 
-			  {
-			  case Vote_Maj:	result.add("-majVote"); break;
-			  case Vote_Plur:	result.add("-plurVote"); break;
-			  }
-			  break;
-			  
-		  case PM_GAIN_RATIO:	
-			  result.add("-giRatioBestV"); 
-			  break;
-			  
-		  case PM_Correlation:
-		      result.add("-giCorrelationBestV");break;
-		      
-		  case PM_HRATIO:
-			  result.add("-giHRATIO");break;
-			  
-		  case PM_InformationMutuelle:
-			  result.add("-giInformationMutuelle");break;
-		  
-		  case PM_Symmetrical:
-		      result.add("-giSymmetricalBestV");break;
-		  }
+    
+    if(NominalConceptLearning == CONCEPT_LEARNING_FMAN_BESTV) {
+    	switch(pertinenceMeasure)
+  	  {
+  		  case PM_GAIN_INFO:	
+  			  result.add("-giBestV");
+  			  switch(VoteMethods) 
+  			  {
+  			  case Vote_Maj:	result.add("-majVote"); break;
+  			  case Vote_Plur:	result.add("-plurVote"); break;
+  			  }
+  			  break;
+  			  
+  		  case PM_GAIN_RATIO:	
+  			  result.add("-giRatioBestV"); 
+  			  break;
+  			  
+  		  case PM_Correlation:
+  		      result.add("-giCorrelationBestV");break;
+  		      
+  		  case PM_HRATIO:
+  			  result.add("-giHRATIO");break;
+  			  
+  		  case PM_InformationMutuelle:
+  			  result.add("-giInformationMutuelle");break;
+  		  
+  		  case PM_Symmetrical:
+  		      result.add("-giSymmetricalBestV");break;
+       }
+    }
+    
+    if(NominalConceptLearning == CONCEPT_LEARNING_FMAN_MULTIV) {
+    	result.add("-giMultiV");
+    }
+	  
     
     result.add("-F");
     result.add("" + getFilterSpec());
@@ -681,6 +583,6 @@ public class test extends AbstractClassifier implements
    * @param argv the options
    */
   public static void main(String[] argv) {
-    runClassifier(new test(), argv);
+    runClassifier(new testConceptLearning(), argv);
   }
 }
