@@ -21,12 +21,24 @@
 
 package weka.classifiers.rules;
 
+
+import weka.attributeSelection.*;
+
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Vector;
 
+import weka.filters.unsupervised.attribute.ReplaceMissingValues; //Prit sur le code de Marwa
+import weka.classifiers.Classifier; //Pour buildClassifier
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+
 import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Sourcable;
+import weka.classifiers.fca.Classification_Rule;
+import weka.classifiers.fca.Classify_Instance;
 import weka.core.Attribute;
 import weka.core.Capabilities;
 import weka.core.DistanceFunction;
@@ -121,6 +133,16 @@ public class testConceptLearning extends AbstractClassifier implements
       + "(for a numeric class) or the mode (for a nominal class).";
   }
   
+  //Pour buildClassifier
+  protected ReplaceMissingValues m_Missing = new ReplaceMissingValues();
+  protected int m_CNC = 0;
+  protected Classifier m_ZeroR;
+  Calendar calendar;
+  SimpleDateFormat sdf = new SimpleDateFormat("E MM/dd/yyyy HH:mm:ss.SSS");
+  
+  //Classify Instance
+  public static ArrayList <Classification_Rule> m_classifierNC;
+  
   //MODÈLE
   
   /**
@@ -135,10 +157,10 @@ public class testConceptLearning extends AbstractClassifier implements
   private int NominalConceptLearning = CONCEPT_LEARNING_FMAN_BESTV;
   
   public static final Tag [] TAGS_NominalConceptLearning = {
-  	new Tag(CONCEPT_LEARNING_FMAN_BESTV, "Closure best values of pertinent attributes"), // -BestV et -fman
-  	new Tag(CONCEPT_LEARNING_FMAN_MULTIV, "Closure all values of pertinent attributes"), // -MultiV et -fman
-  	new Tag(CONCEPT_LEARNING_FTAN_BESTV, "Closure best values of all attributes"), // -BestV et -ftan
-  	new Tag(CONCEPT_LEARNING_FTAN_MULTIV, "Closure all values of all attributes") // -MultiV et -ftan
+  	new Tag(CONCEPT_LEARNING_FMAN_BESTV, "C BV of PA"), // -BestV et -fman
+  	new Tag(CONCEPT_LEARNING_FMAN_MULTIV, "C AV of PA"), // -MultiV et -fman
+  	new Tag(CONCEPT_LEARNING_FTAN_BESTV, "C BV of Aa"), // -BestV et -ftan
+  	new Tag(CONCEPT_LEARNING_FTAN_MULTIV, "C AV of Aa") // -MultiV et -ftan
   	};
   
   public SelectedTag getConceptLearning() {	
@@ -163,12 +185,12 @@ public class testConceptLearning extends AbstractClassifier implements
   private int pertinenceMeasure = PM_GAIN_INFO;
   
   public static final Tag [] TAGS_pertinenceMeasure = {
-			new Tag(PM_GAIN_INFO, "Gain Info"),
-			new Tag(PM_GAIN_RATIO, "Gain Ratio"),
-			new Tag(PM_Correlation,"Correlation"),
+			new Tag(PM_GAIN_INFO, "G Inf"),
+			new Tag(PM_GAIN_RATIO, "G Rat"),
+			new Tag(PM_Correlation,"Corr"),
 			new Tag(PM_HRATIO,"H-RATIO"),
-			new Tag(PM_InformationMutuelle,"Information Mutuelle"),
-			new Tag(PM_Symmetrical,"Symmetrical")};
+			new Tag(PM_InformationMutuelle,"Inf Mut"),
+			new Tag(PM_Symmetrical,"Symm")};
 	    
 	    public SelectedTag getPertinence_Measure() {
 	    	return new SelectedTag(pertinenceMeasure, TAGS_pertinenceMeasure);
@@ -193,8 +215,8 @@ public class testConceptLearning extends AbstractClassifier implements
 	   
 	    
 	    public static final Tag [] TAGS_VoteMethods = {
-			new Tag(Vote_Maj, "Majority Vote"),
-			new Tag(Vote_Plur, "Plurality Vote"),
+			new Tag(Vote_Maj, "MajV"),
+			new Tag(Vote_Plur, "PluralV"),
 			};
 
 	       
@@ -438,47 +460,102 @@ public class testConceptLearning extends AbstractClassifier implements
    * @param instances set of instances serving as training data
    * @throws Exception if the classifier has not been generated successfully
    */
-  @Override
-  public void buildClassifier(Instances instances) throws Exception {
-    // can classifier handle the data?
-    getCapabilities().testWithFail(instances);
+public void buildClassifier(Instances instances) throws Exception {
+      
+      // can classifier handle the data?
+      getCapabilities().testWithFail(instances);
+    
+      // remove instances with missing class
+      m_FilteredInstances = new Instances(instances);
+      m_FilteredInstances.deleteWithMissingClass();
+      
+      if (m_FilteredInstances.numInstances() == 0)
+          throw new Exception("No training instances left after removing instances with MissingClass!");
+      
+      /*
+      m_Missing = new ReplaceMissingValues();
+      m_Missing.setInputFormat(instances);
+      instances = Filter.useFilter(instances, m_Missing); 
+      */
+      m_Missing.setInputFormat(m_FilteredInstances);
+      m_FilteredInstances = Filter.useFilter(m_FilteredInstances, m_Missing);
+      
+      if (m_FilteredInstances.numInstances() == 0)
+          throw new Exception("No training instances left after removing instances with MissingValues!");
+           
+      m_Filter.setInputFormat(m_FilteredInstances);  // filter capabilities are checked here
+      m_FilteredInstances = Filter.useFilter(m_FilteredInstances, m_Filter);
 
-    double sumOfWeights = 0;
-
-    m_Class = instances.classAttribute();
-    m_ClassValue = 0;
-    switch (instances.classAttribute().type()) {
-    case Attribute.NUMERIC:
-      m_Counts = null;
-      break;
-    case Attribute.NOMINAL:
-      m_Counts = new double[instances.numClasses()];
-      for (int i = 0; i < m_Counts.length; i++) {
-        m_Counts[i] = 1;
-      }
-      sumOfWeights = instances.numClasses();
-      break;
-    }
-    for (Instance instance : instances) {
-      double classValue = instance.classValue();
-      if (!Utils.isMissingValue(classValue)) {
-        if (instances.classAttribute().isNominal()) {
-          m_Counts[(int) classValue] += instance.weight();
-        } else {
-          m_ClassValue += instance.weight() * classValue;
+        
+      // only class? -> build ZeroR model!! si on un seul attribut on appelle le classifieur zeroR
+      if (m_FilteredInstances.numAttributes() == 1) 
+      {
+          System.err.println("Cannot build model (only class attribute present in data!), "
+           + "using ZeroR model instead!");
+          m_ZeroR = new weka.classifiers.rules.ZeroR();
+          m_ZeroR.buildClassifier(m_FilteredInstances);
+          return;
+      } 
+      else {
+        m_ZeroR = null;
+        this.m_CNC = 1; // build CNC model
         }
-        sumOfWeights += instance.weight();
+        
+      
+      
+      switch(this.NominalConceptLearning)
+      {
+      case CONCEPT_LEARNING_FMAN_BESTV: 
+          if(m_Debug){
+              calendar = Calendar.getInstance();
+              System.out.println("\n \t"+sdf.format(calendar.getTime()));  
+          }
+          //for (int i=0; i<m_FilteredInstances.numInstances();i++)
+              //System.out.println(m_FilteredInstances.instance(i).toString());
+          buildClassifierWithNominalClosure(m_FilteredInstances);  
+          break;
       }
-    }
-    if (instances.classAttribute().isNumeric()) {
-      if (Utils.gr(sumOfWeights, 0)) {
-        m_ClassValue /= sumOfWeights;
-      }
-    } else {
-      m_ClassValue = Utils.maxIndex(m_Counts);
-      Utils.normalize(m_Counts, sumOfWeights);
-    }
   }
+
+protected void buildClassifierWithNominalClosure(Instances LearningData) throws Exception {
+
+	  m_classifierNC = new ArrayList <Classification_Rule> ();	
+	  m_classifierNC.clear();
+	  
+	  switch (this.pertinenceMeasure) 
+	  {
+	  case PM_GAIN_INFO: // Fermeture de la valeur nominale la plus pertienente (Support) de l'attribut nominal qui maximise le Gain Informationel 
+		  m_classifierNC = ExtraireRegleFermNom(LearningData, 1);
+		  break; 
+		
+	  case PM_GAIN_RATIO: // Fermeture du Meilleur Attribut Nominal selon les classes
+		  m_classifierNC = ExtraireRegleFermNom(LearningData, 2);
+		  break;
+		    
+	  case PM_Correlation: // Fermetures des valeurs nominales de l'attribut nominal qui maximise le Gain Informatioonel
+		  m_classifierNC = ExtraireRegleFermNom(LearningData, 3);
+		  break;
+	  
+	  case PM_HRATIO: // Fermetures des valeurs nominales de l'attribut nominal qui maximise LE GAIN RATIO
+		  m_classifierNC = ExtraireRegleFermNom(LearningData, 4);
+		  break;
+		  
+	  case PM_InformationMutuelle: // Fermetures des valeurs nominales de l'attribut nominal qui maximise LE ONE R
+		  m_classifierNC = ExtraireRegleFermNom(LearningData, 5);
+		  break;
+		  
+	  case PM_Symmetrical: // Fermetures des valeurs nominales de l'attribut nominal qui maximise la correlation
+		  m_classifierNC = ExtraireRegleFermNom(LearningData, 6);
+		  break;
+	  }
+	  
+	  if(m_Debug)	{
+		  System.out.println("\n\n\t=== Vector CLASSIFIER NOMINAL CONCEPT ===");
+		  for(int i=0; i<m_classifierNC.size();i++)
+			  System.out.println("CNC["+i+"]: "+m_classifierNC.get(i).affich_nom_rule(true));
+		}
+}  
+  
 
   /**
    * Classifies a given instance.
@@ -487,9 +564,63 @@ public class testConceptLearning extends AbstractClassifier implements
    * @return index of the predicted class
    */
   @Override
-  public double classifyInstance(Instance instance) {
+  public double classifyInstance(Instance inst) throws Exception  {
+	  // default model?
+	  /*if (m_ZeroR != null) 
+		  return m_ZeroR.classifyInstance(inst);
+	  */
+	  
+    //System.err.println("FilteredClassifier:: " + m_Filter.getClass().getName() + " in: " + inst);
 
-    return m_ClassValue;
+    if (m_Filter.numPendingOutput() > 0) {
+      throw new Exception("Filter output queue not empty!");
+    }
+    
+    if (!m_Filter.input(inst)) {
+      throw new Exception("Filter didn't make the test instance immediately available!");
+    }
+    m_Filter.batchFinished();
+    Instance newInstance = m_Filter.output();
+
+    //System.err.println("FilteredClassifier:: " + m_Filter.getClass().getName() + " out: " + newInstance); 
+    
+    m_Missing.input(inst);
+    m_Missing.batchFinished();
+    inst = m_Missing.output();
+
+	  double result= (double) -1.0;
+	  Classify_Instance  listRules = new Classify_Instance();
+	  switch(pertinenceMeasure)
+	  {
+	  case PM_GAIN_RATIO : 
+		  result = (double) listRules.classify_Instance_nom(newInstance, (Classification_Rule) m_classifierNC.get(0)); 
+		  break;
+	  case PM_Correlation : 
+		  result = (double) listRules.classify_Instance_nom(newInstance, (Classification_Rule) m_classifierNC.get(0)); 
+		  break;
+	  case PM_HRATIO : 
+		  result = (double) listRules.classify_Instance_nom(newInstance, (Classification_Rule) m_classifierNC.get(0)); 
+		  break;
+	  case PM_InformationMutuelle:
+		  result = (double) listRules.classify_Instance_nom(newInstance, (Classification_Rule) m_classifierNC.get(0)); 
+		  break;
+	  case PM_Symmetrical:
+		  result = (double) listRules.classify_Instance_nom(newInstance, (Classification_Rule) m_classifierNC.get(0)); 
+		  break;
+	  case PM_GAIN_INFO: 
+		  switch(VoteMethods)
+		  {
+		  case Vote_Plur: result = (double) listRules.classify_Instance_nom_VotePond(newInstance, m_classifierNC,newInstance.numClasses()); break;
+		  case Vote_Maj: result = (double) listRules.classify_Instance_nom_VoteMaj(newInstance, m_classifierNC,newInstance.numClasses()); break;
+		  }
+		  break;
+		  
+	  }
+	  
+	  if (result == -1.0) 		
+		  return Utils.missingValue();
+	  
+	  return result;
   }
 
   /**
