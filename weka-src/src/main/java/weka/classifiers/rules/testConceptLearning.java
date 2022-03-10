@@ -320,68 +320,69 @@ public class testConceptLearning extends AbstractClassifier implements
    */
   @Override
   public void setOptions(String[] options) throws Exception {
+	  
     boolean  runString;
     
- // Fermeture du meilleur attribut nominal	
- 			runString = Utils.getFlag("CONCEPT_LEARNING_FMAN_BESTV", options);
- 			if (runString)
- 				NominalConceptLearning = CONCEPT_LEARNING_FMAN_BESTV; // Experimental
- 			
- 			switch (NominalConceptLearning) { 
- 			case CONCEPT_LEARNING_FMAN_BESTV    :    NominalConceptLearning = 1; break;
- 			case CONCEPT_LEARNING_FMAN_MULTIV   :    NominalConceptLearning = 2; break;
- 			case CONCEPT_LEARNING_FTAN_BESTV    :    NominalConceptLearning = 3; break;
- 			case CONCEPT_LEARNING_FTAN_MULTIV   :    NominalConceptLearning = 4; break;
- 			}
-    
-    //Ajout de pertinence Mesure
-    
-    runString = Utils.getFlag("PM_GAIN_INFO", options);
-	if (runString)
-		pertinenceMeasure = PM_GAIN_INFO;
-	
-	runString = Utils.getFlag("PM_GAIN_RATIO", options);
-	if (runString)
-		pertinenceMeasure = PM_GAIN_RATIO;
-	
-	runString = Utils.getFlag("PM_Correlation", options);
-	if (runString)
-		pertinenceMeasure = PM_Correlation;
-	
-	runString = Utils.getFlag("PM_HRATIO", options);
-	if (runString)
-		pertinenceMeasure = PM_HRATIO;
-	
-	runString = Utils.getFlag("PM_InformationMutuelle", options);
-	if (runString)
-		pertinenceMeasure = PM_InformationMutuelle;
-	
-	runString = Utils.getFlag("PM_Symmetrical", options);
-	if (runString)
-		pertinenceMeasure = PM_Symmetrical;
-					
-	switch (pertinenceMeasure) { 
-	 case PM_GAIN_INFO                :	         pertinenceMeasure = 1; break;
-	 case PM_GAIN_RATIO               :          pertinenceMeasure = 2; break;
-	 case PM_Correlation              :          pertinenceMeasure = 3; break;
-	 case PM_HRATIO                   :          pertinenceMeasure = 4; break;
-	 case PM_InformationMutuelle      :          pertinenceMeasure = 5; break;
-	 case PM_Symmetrical              :          pertinenceMeasure = 6; break;
-     }
-	
-	// Les techniques de vote dans le cas de la fermeture des valeurs 
-	// nominales de l'attribut qui m'aximise le gain informationel
-	runString = Utils.getFlag("Vote_Maj", options);
-	if ((pertinenceMeasure == PM_GAIN_INFO) && runString)
-		VoteMethods = Vote_Maj;
-	runString = Utils.getFlag("Vote_Plur", options);
-	if ((pertinenceMeasure == PM_GAIN_INFO) && runString)
-		VoteMethods = Vote_Plur;
-						
-	switch (VoteMethods) {
-		case Vote_Plur  :	    VoteMethods = 1; break;
-		case Vote_Maj   :		VoteMethods = 2; break;
-	}	 
+// // Fermeture du meilleur attribut nominal	
+// 			runString = Utils.getFlag("CONCEPT_LEARNING_FMAN_BESTV", options);
+// 			if (runString)
+// 				NominalConceptLearning = CONCEPT_LEARNING_FMAN_BESTV; // Experimental
+// 			
+// 			switch (NominalConceptLearning) { 
+// 			case CONCEPT_LEARNING_FMAN_BESTV    :    NominalConceptLearning = 1; break;
+// 			case CONCEPT_LEARNING_FMAN_MULTIV   :    NominalConceptLearning = 2; break;
+// 			case CONCEPT_LEARNING_FTAN_BESTV    :    NominalConceptLearning = 3; break;
+// 			case CONCEPT_LEARNING_FTAN_MULTIV   :    NominalConceptLearning = 4; break;
+// 			}
+//    
+//    //Ajout de pertinence Mesure
+//    
+//    runString = Utils.getFlag("PM_GAIN_INFO", options);
+//	if (runString)
+//		pertinenceMeasure = PM_GAIN_INFO;
+//	
+//	runString = Utils.getFlag("PM_GAIN_RATIO", options);
+//	if (runString)
+//		pertinenceMeasure = PM_GAIN_RATIO;
+//	
+//	runString = Utils.getFlag("PM_Correlation", options);
+//	if (runString)
+//		pertinenceMeasure = PM_Correlation;
+//	
+//	runString = Utils.getFlag("PM_HRATIO", options);
+//	if (runString)
+//		pertinenceMeasure = PM_HRATIO;
+//	
+//	runString = Utils.getFlag("PM_InformationMutuelle", options);
+//	if (runString)
+//		pertinenceMeasure = PM_InformationMutuelle;
+//	
+//	runString = Utils.getFlag("PM_Symmetrical", options);
+//	if (runString)
+//		pertinenceMeasure = PM_Symmetrical;
+//					
+//	switch (pertinenceMeasure) { 
+//	 case PM_GAIN_INFO                :	         pertinenceMeasure = 1; break;
+//	 case PM_GAIN_RATIO               :          pertinenceMeasure = 2; break;
+//	 case PM_Correlation              :          pertinenceMeasure = 3; break;
+//	 case PM_HRATIO                   :          pertinenceMeasure = 4; break;
+//	 case PM_InformationMutuelle      :          pertinenceMeasure = 5; break;
+//	 case PM_Symmetrical              :          pertinenceMeasure = 6; break;
+//     }
+//	
+//	// Les techniques de vote dans le cas de la fermeture des valeurs 
+//	// nominales de l'attribut qui m'aximise le gain informationel
+//	runString = Utils.getFlag("Vote_Maj", options);
+//	if ((pertinenceMeasure == PM_GAIN_INFO) && runString)
+//		VoteMethods = Vote_Maj;
+//	runString = Utils.getFlag("Vote_Plur", options);
+//	if ((pertinenceMeasure == PM_GAIN_INFO) && runString)
+//		VoteMethods = Vote_Plur;
+//						
+//	switch (VoteMethods) {
+//		case Vote_Plur  :	    VoteMethods = 1; break;
+//		case Vote_Maj   :		VoteMethods = 2; break;
+//	}	 
 	
 	String tmpStr;
     tmpStr = Utils.getOption('F', options);
@@ -409,51 +410,52 @@ public class testConceptLearning extends AbstractClassifier implements
    */
   @Override
   public String[] getOptions() {
+	  
     Vector<String> result = new Vector<String>();
     
-    switch(NominalConceptLearning) 
-	  {
-	  case CONCEPT_LEARNING_FMAN_BESTV: 	result.add("-fman"); break;
-	  case CONCEPT_LEARNING_FMAN_MULTIV:    result.add("-fman"); break;
-	  case CONCEPT_LEARNING_FTAN_BESTV:     result.add("-ftan"); result.add("-BestV"); break;
-	  case CONCEPT_LEARNING_FTAN_MULTIV:    result.add("-ftan"); result.add("-MultiV"); break;
-	  }
-    
-    if(NominalConceptLearning == CONCEPT_LEARNING_FMAN_BESTV) {
-    	switch(pertinenceMeasure)
-  	  {
-  		  case PM_GAIN_INFO:
-  			  result.add("-giBestV"); break;	
-  			  /*result.add("-giBestV");
-  			  switch(VoteMethods) 
-  			  {
-  			  case Vote_Maj:	result.add("-majVote"); break;
-  			  case Vote_Plur:	result.add("-plurVote"); break;
-  			  }
-  			  break;*/
-  			  
-  		  case PM_GAIN_RATIO:	
-  			  result.add("-giRatioBestV"); 
-  			  break;
-  			  
-  		  case PM_Correlation:
-  		      result.add("-giCorrelationBestV");break;
-  		      
-  		  case PM_HRATIO:
-  			  result.add("-giHRATIO");break;
-  			  
-  		  case PM_InformationMutuelle:
-  			  result.add("-giInformationMutuelle");break;
-  		  
-  		  case PM_Symmetrical:
-  		      result.add("-giSymmetricalBestV");break;
-       }
-    }
-    
-    if(NominalConceptLearning == CONCEPT_LEARNING_FMAN_MULTIV) {
-    	result.add("-giMultiV");
-    }
-	  
+//    switch(NominalConceptLearning) 
+//	  {
+//	  case CONCEPT_LEARNING_FMAN_BESTV: 	result.add("-fman"); break;
+//	  case CONCEPT_LEARNING_FMAN_MULTIV:    result.add("-fman"); break;
+//	  case CONCEPT_LEARNING_FTAN_BESTV:     result.add("-ftan"); result.add("-BestV"); break;
+//	  case CONCEPT_LEARNING_FTAN_MULTIV:    result.add("-ftan"); result.add("-MultiV"); break;
+//	  }
+//    
+//    if(NominalConceptLearning == CONCEPT_LEARNING_FMAN_BESTV) {
+//    	switch(pertinenceMeasure)
+//  	  {
+//  		  case PM_GAIN_INFO:
+//  			  result.add("-giBestV"); break;	
+//  			  /*result.add("-giBestV");
+//  			  switch(VoteMethods) 
+//  			  {
+//  			  case Vote_Maj:	result.add("-majVote"); break;
+//  			  case Vote_Plur:	result.add("-plurVote"); break;
+//  			  }
+//  			  break;*/
+//  			  
+//  		  case PM_GAIN_RATIO:	
+//  			  result.add("-giRatioBestV"); 
+//  			  break;
+//  			  
+//  		  case PM_Correlation:
+//  		      result.add("-giCorrelationBestV");break;
+//  		      
+//  		  case PM_HRATIO:
+//  			  result.add("-giHRATIO");break;
+//  			  
+//  		  case PM_InformationMutuelle:
+//  			  result.add("-giInformationMutuelle");break;
+//  		  
+//  		  case PM_Symmetrical:
+//  		      result.add("-giSymmetricalBestV");break;
+//       }
+//    }
+//    
+//    if(NominalConceptLearning == CONCEPT_LEARNING_FMAN_MULTIV) {
+//    	result.add("-giMultiV");
+//    }
+//	  
     
     result.add("-F");
     result.add("" + getFilterSpec());
