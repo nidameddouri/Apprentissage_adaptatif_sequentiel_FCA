@@ -129,7 +129,6 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 	Calendar calendar;
 	SimpleDateFormat sdf = new SimpleDateFormat("E MM/dd/yyyy HH:mm:ss.SSS");
 	//System.err.println(sdf.format(calendar.getTime()));
-	
 	/** indicate that CNC is running*/	
 	protected int m_CNC = 0;
 	
@@ -934,7 +933,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
       m_Missing.setInputFormat(instances);
       instances = Filter.useFilter(instances, m_Missing); 
       */
-      m_Missing.setInputFormat(m_FilteredInstances);
+      m_Missing.setInputFormat(m_FilteredInstances);     
       m_FilteredInstances = Filter.useFilter(m_FilteredInstances, m_Missing);
       
       if (m_FilteredInstances.numInstances() == 0)
@@ -1032,7 +1031,7 @@ implements UpdateableClassifier, TechnicalInformationHandler, WeightedInstancesH
 			  break;
 	  }
 	  
-	  if(m_Debug)	
+	  if(m_Debug)
 	  {
 		  System.out.println("\n\n\t=== Vector CLASSIFIER all NOMINAL CONCEPT ===");
 		  for(int i=0; i<m_classifierNC.size();i++)

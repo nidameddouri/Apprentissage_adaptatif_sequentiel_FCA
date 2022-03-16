@@ -149,17 +149,17 @@ public class testConceptLearning extends AbstractClassifier implements
 	 */
   
 	public static final int CONCEPT_LEARNING_FMAN_BESTV = 1;
-	public static final int CONCEPT_LEARNING_FMAN_MULTIV = 2;
+	/*public static final int CONCEPT_LEARNING_FMAN_MULTIV = 2;
 	public static final int CONCEPT_LEARNING_FTAN_BESTV = 3;
-	public static final int CONCEPT_LEARNING_FTAN_MULTIV = 4;
+	public static final int CONCEPT_LEARNING_FTAN_MULTIV = 4;*/
   
   private int NominalConceptLearning = CONCEPT_LEARNING_FMAN_BESTV;
   
   public static final Tag [] TAGS_NominalConceptLearning = {
   	new Tag(CONCEPT_LEARNING_FMAN_BESTV, "C BV of PA"), // -BestV et -fman
-  	new Tag(CONCEPT_LEARNING_FMAN_MULTIV, "C AV of PA"), // -MultiV et -fman
+  	/*new Tag(CONCEPT_LEARNING_FMAN_MULTIV, "C AV of PA"), // -MultiV et -fman
   	new Tag(CONCEPT_LEARNING_FTAN_BESTV, "C BV of Aa"), // -BestV et -ftan
-  	new Tag(CONCEPT_LEARNING_FTAN_MULTIV, "C AV of Aa") // -MultiV et -ftan
+  	new Tag(CONCEPT_LEARNING_FTAN_MULTIV, "C AV of Aa") // -MultiV et -ftan*/
   	};
   
   public SelectedTag getConceptLearning() {	
@@ -188,20 +188,20 @@ public class testConceptLearning extends AbstractClassifier implements
    */
   
   public static final int PM_GAIN_INFO = 1;	// Default: La valeur la plus pertinente (support) de l'attribut qui maximise le Gain Informationel
-  public static final int PM_GAIN_RATIO = 2;	// Les valeurs nominales de l'attribut qui maximise LE GAIN RATIO
+  /*public static final int PM_GAIN_RATIO = 2;	// Les valeurs nominales de l'attribut qui maximise LE GAIN RATIO
   public static final int PM_Correlation = 3; // les valeurs nominales qui  maximise le correlation attribut eval
   public static final int PM_HRATIO = 4;
   public static final int PM_InformationMutuelle = 5;
-  public static final int PM_Symmetrical = 6; // les valeurs nominales qui maximise de symmetrical
+  public static final int PM_Symmetrical = 6; // les valeurs nominales qui maximise de symmetrical*/
   private int pertinenceMeasure = PM_GAIN_INFO;
   
   public static final Tag [] TAGS_pertinenceMeasure = {
-			new Tag(PM_GAIN_INFO, "G Inf"),
+			new Tag(PM_GAIN_INFO, "G Inf")/*,
 			new Tag(PM_GAIN_RATIO, "G Rat"),
 			new Tag(PM_Correlation,"Corr"),
 			new Tag(PM_HRATIO,"H-RATIO"),
 			new Tag(PM_InformationMutuelle,"Inf Mut"),
-			new Tag(PM_Symmetrical,"Symm")};
+			new Tag(PM_Symmetrical,"Symm")*/};
 	    
 	    public SelectedTag getPertinence_Measure() {
 	    	return new SelectedTag(pertinenceMeasure, TAGS_pertinenceMeasure);
@@ -323,69 +323,38 @@ public class testConceptLearning extends AbstractClassifier implements
 	  
     boolean  runString;
     
-// // Fermeture du meilleur attribut nominal	
-// 			runString = Utils.getFlag("CONCEPT_LEARNING_FMAN_BESTV", options);
-// 			if (runString)
-// 				NominalConceptLearning = CONCEPT_LEARNING_FMAN_BESTV; // Experimental
-// 			
-// 			switch (NominalConceptLearning) { 
-// 			case CONCEPT_LEARNING_FMAN_BESTV    :    NominalConceptLearning = 1; break;
-// 			case CONCEPT_LEARNING_FMAN_MULTIV   :    NominalConceptLearning = 2; break;
-// 			case CONCEPT_LEARNING_FTAN_BESTV    :    NominalConceptLearning = 3; break;
-// 			case CONCEPT_LEARNING_FTAN_MULTIV   :    NominalConceptLearning = 4; break;
-// 			}
-//    
-//    //Ajout de pertinence Mesure
-//    
-//    runString = Utils.getFlag("PM_GAIN_INFO", options);
-//	if (runString)
-//		pertinenceMeasure = PM_GAIN_INFO;
-//	
-//	runString = Utils.getFlag("PM_GAIN_RATIO", options);
-//	if (runString)
-//		pertinenceMeasure = PM_GAIN_RATIO;
-//	
-//	runString = Utils.getFlag("PM_Correlation", options);
-//	if (runString)
-//		pertinenceMeasure = PM_Correlation;
-//	
-//	runString = Utils.getFlag("PM_HRATIO", options);
-//	if (runString)
-//		pertinenceMeasure = PM_HRATIO;
-//	
-//	runString = Utils.getFlag("PM_InformationMutuelle", options);
-//	if (runString)
-//		pertinenceMeasure = PM_InformationMutuelle;
-//	
-//	runString = Utils.getFlag("PM_Symmetrical", options);
-//	if (runString)
-//		pertinenceMeasure = PM_Symmetrical;
-//					
-//	switch (pertinenceMeasure) { 
-//	 case PM_GAIN_INFO                :	         pertinenceMeasure = 1; break;
-//	 case PM_GAIN_RATIO               :          pertinenceMeasure = 2; break;
-//	 case PM_Correlation              :          pertinenceMeasure = 3; break;
-//	 case PM_HRATIO                   :          pertinenceMeasure = 4; break;
-//	 case PM_InformationMutuelle      :          pertinenceMeasure = 5; break;
-//	 case PM_Symmetrical              :          pertinenceMeasure = 6; break;
-//     }
-//	
-//	// Les techniques de vote dans le cas de la fermeture des valeurs 
-//	// nominales de l'attribut qui m'aximise le gain informationel
-//	runString = Utils.getFlag("Vote_Maj", options);
-//	if ((pertinenceMeasure == PM_GAIN_INFO) && runString)
-//		VoteMethods = Vote_Maj;
-//	runString = Utils.getFlag("Vote_Plur", options);
-//	if ((pertinenceMeasure == PM_GAIN_INFO) && runString)
-//		VoteMethods = Vote_Plur;
-//						
-//	switch (VoteMethods) {
-//		case Vote_Plur  :	    VoteMethods = 1; break;
-//		case Vote_Maj   :		VoteMethods = 2; break;
-//	}	 
+   //Fermeture du meilleur attribut nominal
+    runString = Utils.getFlag("CONCEPT_LEARNING_FMAN_BESTV", options);
+    if(runString)
+    	NominalConceptLearning = CONCEPT_LEARNING_FMAN_BESTV;
+    switch (NominalConceptLearning) { 
+		case CONCEPT_LEARNING_FMAN_BESTV:    NominalConceptLearning = 1; break;
+    }
+    
+    //Les metriques de la selection du meilleur attribut nominal
+	runString = Utils.getFlag("FMAN_GAIN_INFO_BV", options);
+	if (runString)
+		pertinenceMeasure = PM_GAIN_INFO;
 	
-	String tmpStr;
-    tmpStr = Utils.getOption('F', options);
+	switch (pertinenceMeasure) { 
+		case PM_GAIN_INFO:	pertinenceMeasure = 1; break;
+    }
+	
+	runString = Utils.getFlag("Vote_Maj", options);
+	if ((pertinenceMeasure == PM_GAIN_INFO) && runString)
+		VoteMethods = Vote_Maj;
+			
+	runString = Utils.getFlag("Vote_Plur", options);
+	if ((pertinenceMeasure == PM_GAIN_INFO) && runString)
+		VoteMethods = Vote_Plur;
+	
+	switch (VoteMethods) 
+	{ 
+		 case Vote_Maj:				VoteMethods = 1; 	break;
+		 case Vote_Plur:			VoteMethods = 2; 	break;
+     } 
+	
+    String tmpStr = Utils.getOption('F', options);
     if (tmpStr.length() > 0) 
     {
       String[] filterSpec = Utils.splitOptions(tmpStr);
@@ -413,49 +382,16 @@ public class testConceptLearning extends AbstractClassifier implements
 	  
     Vector<String> result = new Vector<String>();
     
-//    switch(NominalConceptLearning) 
-//	  {
-//	  case CONCEPT_LEARNING_FMAN_BESTV: 	result.add("-fman"); break;
-//	  case CONCEPT_LEARNING_FMAN_MULTIV:    result.add("-fman"); break;
-//	  case CONCEPT_LEARNING_FTAN_BESTV:     result.add("-ftan"); result.add("-BestV"); break;
-//	  case CONCEPT_LEARNING_FTAN_MULTIV:    result.add("-ftan"); result.add("-MultiV"); break;
-//	  }
-//    
-//    if(NominalConceptLearning == CONCEPT_LEARNING_FMAN_BESTV) {
-//    	switch(pertinenceMeasure)
-//  	  {
-//  		  case PM_GAIN_INFO:
-//  			  result.add("-giBestV"); break;	
-//  			  /*result.add("-giBestV");
-//  			  switch(VoteMethods) 
-//  			  {
-//  			  case Vote_Maj:	result.add("-majVote"); break;
-//  			  case Vote_Plur:	result.add("-plurVote"); break;
-//  			  }
-//  			  break;*/
-//  			  
-//  		  case PM_GAIN_RATIO:	
-//  			  result.add("-giRatioBestV"); 
-//  			  break;
-//  			  
-//  		  case PM_Correlation:
-//  		      result.add("-giCorrelationBestV");break;
-//  		      
-//  		  case PM_HRATIO:
-//  			  result.add("-giHRATIO");break;
-//  			  
-//  		  case PM_InformationMutuelle:
-//  			  result.add("-giInformationMutuelle");break;
-//  		  
-//  		  case PM_Symmetrical:
-//  		      result.add("-giSymmetricalBestV");break;
-//       }
-//    }
-//    
-//    if(NominalConceptLearning == CONCEPT_LEARNING_FMAN_MULTIV) {
-//    	result.add("-giMultiV");
-//    }
-//	  
+    switch(NominalConceptLearning) {
+    	case CONCEPT_LEARNING_FMAN_BESTV: 	result.add("-fman"); break;
+    }
+    
+    if(NominalConceptLearning == CONCEPT_LEARNING_FMAN_BESTV) {
+    	switch(pertinenceMeasure) {
+    		case CONCEPT_LEARNING_FMAN_BESTV:
+    			result.add("-giBestV"); break;
+    	}
+    }
     
     result.add("-F");
     result.add("" + getFilterSpec());
@@ -475,7 +411,8 @@ public class testConceptLearning extends AbstractClassifier implements
    * @throws Exception if the classifier has not been generated successfully
    */
 public void buildClassifier(Instances instances) throws Exception {
-      
+	
+	
       // can classifier handle the data?
       getCapabilities().testWithFail(instances);
     
@@ -514,8 +451,6 @@ public void buildClassifier(Instances instances) throws Exception {
         m_ZeroR = null;
         this.m_CNC = 1; // build CNC model
         }
-        
-      
       
       switch(this.NominalConceptLearning)
       {
@@ -540,27 +475,7 @@ protected void buildClassifierWithNominalClosure(Instances LearningData) throws 
 	  {
 	  case PM_GAIN_INFO: // Fermeture de la valeur nominale la plus pertienente (Support) de l'attribut nominal qui maximise le Gain Informationel 
 		  m_classifierNC = ExtraireRegleFermNom(LearningData, 1);
-		  break; 
-		
-	  case PM_GAIN_RATIO: // Fermeture du Meilleur Attribut Nominal selon les classes
-		  m_classifierNC = ExtraireRegleFermNom(LearningData, 2);
 		  break;
-		    
-	  case PM_Correlation: // Fermetures des valeurs nominales de l'attribut nominal qui maximise le Gain Informatioonel
-		  m_classifierNC = ExtraireRegleFermNom(LearningData, 3);
-		  break;
-	  
-	  /*case PM_HRATIO: // Fermetures des valeurs nominales de l'attribut nominal qui maximise LE GAIN RATIO
-		  m_classifierNC = ExtraireRegleFermNom(LearningData, 4);
-		  break;
-		  
-	  case PM_InformationMutuelle: // Fermetures des valeurs nominales de l'attribut nominal qui maximise LE ONE R
-		  m_classifierNC = ExtraireRegleFermNom(LearningData, 5);
-		  break;
-		  
-	  case PM_Symmetrical: // Fermetures des valeurs nominales de l'attribut nominal qui maximise la correlation
-		  m_classifierNC = ExtraireRegleFermNom(LearningData, 6);
-		  break;*/
 	  }
 	  
 	  if(m_Debug)	{
@@ -568,7 +483,7 @@ protected void buildClassifierWithNominalClosure(Instances LearningData) throws 
 		  for(int i=0; i<m_classifierNC.size();i++)
 			  System.out.println("CNC["+i+"]: "+m_classifierNC.get(i).affich_nom_rule(true));
 		}
-}  
+}
   
 
   /**
@@ -581,7 +496,7 @@ protected void buildClassifierWithNominalClosure(Instances LearningData) throws 
   public double classifyInstance(Instance inst) throws Exception  {
 	  // default model?
 	  /*if (m_ZeroR != null) 
-		  return m_ZeroR.classifyInstance(inst);
+		  return m_ZeroR.m_classifierNC(inst);
 	  */
 	  
     //System.err.println("FilteredClassifier:: " + m_Filter.getClass().getName() + " in: " + inst);
@@ -606,6 +521,7 @@ protected void buildClassifierWithNominalClosure(Instances LearningData) throws 
 	  Classify_Instance  listRules = new Classify_Instance();
 	  switch(pertinenceMeasure)
 	  {
+	  /*
 	  case PM_GAIN_RATIO : 
 		  result = (double) listRules.classify_Instance_nom(newInstance, (Classification_Rule) m_classifierNC.get(0)); 
 		  break;
@@ -620,15 +536,10 @@ protected void buildClassifierWithNominalClosure(Instances LearningData) throws 
 		  break;
 	  case PM_Symmetrical:
 		  result = (double) listRules.classify_Instance_nom(newInstance, (Classification_Rule) m_classifierNC.get(0)); 
+		  break;*/
+	  case PM_GAIN_INFO:
+		  result = (double) listRules.classify_Instance_nom(newInstance, (Classification_Rule) m_classifierNC.get(0)); 
 		  break;
-	  case PM_GAIN_INFO: 
-		  switch(VoteMethods)
-		  {
-		  case Vote_Plur: result = (double) listRules.classify_Instance_nom_VotePond(newInstance, m_classifierNC,newInstance.numClasses()); break;
-		  case Vote_Maj: result = (double) listRules.classify_Instance_nom_VoteMaj(newInstance, m_classifierNC,newInstance.numClasses()); break;
-		  }
-		  break;
-		  
 	  }
 	  
 	  if (result == -1.0) 		
@@ -906,266 +817,6 @@ protected void buildClassifierWithNominalClosure(Instances LearningData) throws 
 			classifierNC.add(r);
 			
 	    }
-	    
-	    
-	    /* G�n�ration d'un classifieur de type CNC � partir de la fermeture 
-	     * de la valeur nominale la plus pertienente (qui maximise le Support) 
-	     * de l'attribut nominal qui maximise le Gain Informationel
-	     */
-	    //G�n�ration d'un classifieur faible � partir de la fermeture du meilleur attribut retenu 'm_Attribute'
-	    /*
-	    if(critere == 2)	// FMAN_GAIN_INFO_BA: Fermeture du Meilleur Attribut Nominal selon les classes
-	    {
-	    	int supportDistVal=0;
-			int indexBestDistVal = 0;
-			int suppBestDistVal = 0;
-
-			for(int cl=0; cl<inst.numClasses(); cl++)
-			{
-				supportDistVal=0;
-				indexBestDistVal = 0;
-				suppBestDistVal = 0;
-				
-					//Extraction des indices d'instances etiquit�es par la classe d'indice <cl>
-					ArrayList <Integer> IndTrainingbyClass = new ArrayList <Integer>();
-					IndTrainingbyClass.clear();
-					for(int i=0; i<inst.numInstances();i++)
-						if(inst.instance(i).classValue()==cl)
-							IndTrainingbyClass.add(i);
-					
-					//Extraction de l'�chantillon d'instances etiquit�es par la classe d'indice <cl>
-					Instances TrainingbyClass = new Instances( inst, 0,IndTrainingbyClass.size()); 
-					TrainingbyClass.delete();
-				    for (int h=0; h< IndTrainingbyClass.size(); h++)
-				    	TrainingbyClass.add(inst.instance(IndTrainingbyClass.get(h)));
-				    if(TrainingbyClass.numInstances()==0)
-				       	System.out.println("\nCAS PARTICULIER: TrainingbyClass.numInstances()==0");
-				    
-				    if(TrainingbyClass.numInstances()!=0)
-				    {
-						for(int i=0; i<TrainingbyClass.numDistinctValues(m_Attribute.index()); i++)
-						{
-							//Calcule du support de cette DistinctValue
-							ArrayList <Integer> instDistVal =new ArrayList <Integer> ();
-							instDistVal.clear();
-							
-							supportDistVal=0;
-							for(int j=0; j<TrainingbyClass.numInstances(); j++)
-							{
-								//System.out.print((j+1)+"i�me instance: "+TrainingbyClass.instance(j).stringValue(m_Attribute.index()) +" - "+ TrainingbyClass.attribute(m_Attribute.index()).value(i));
-								if( TrainingbyClass.instance(j).stringValue(m_Attribute.index()) == TrainingbyClass.attribute(m_Attribute.index()).value(i))
-								{
-									supportDistVal++;
-									instDistVal.add(j);
-									//System.out.println("     OK");					
-								}
-								//else
-									//System.out.println("     NO");
-							}
-							//System.out.println("Support de cette DistinctValue ("+TrainingbyClass.attribute(m_Attribute.index()).value(i)+"): "+supportDistVal);
-							if(suppBestDistVal <= supportDistVal)
-							{
-								suppBestDistVal=supportDistVal;
-								indexBestDistVal = i;
-							}
-						}	
-						
-						if(m_Debug)
-							System.out.println("Indice du meilleur DistinctValue("+m_Attribute.value(indexBestDistVal)+"): "+indexBestDistVal+" avec un support qui vaut: "+suppBestDistVal);
-						
-						//Extraires les exemples associ�s a cet attribut
-						ArrayList <Integer> FERM_exe = new ArrayList <Integer> ();	
-						ArrayList <String> FERM_att = new ArrayList <String> ();	
-				
-						//Liste des instances verifiant la fermeture
-						for(int i=0; i<TrainingbyClass.numInstances(); i++)
-						{
-							if( TrainingbyClass.instance(i).stringValue(m_Attribute.index()) == m_Attribute.value(indexBestDistVal))
-								FERM_exe.add(i);
-						}
-						int nbrInstFer = FERM_exe.size();
-
-						if(m_Debug)
-						{
-							System.out.print("\nFermeture d'instances:\n\tTaille : "+ nbrInstFer+"\n\tLes indices : ");
-							for(int i=0; i<nbrInstFer; i++)
-								System.out.print (" - "+FERM_exe.get(i));
-							System.out.println();
-							for(int i=0; i<nbrInstFer; i++)
-								System.out.println(FERM_exe.get(i)+" : "+TrainingbyClass.instance(FERM_exe.get(i)).toString());
-						}
-						
-						//Liste des attributs associ�s � la fermeture ??????????????????????
-						//System.out.println("Extraction des attributs associ�s � cette fermeture");
-						String nl= "-null-";
-						for(int i=0; i< (int) inst.numAttributes()-1;i++)
-						{
-							int cmpt=0;
-							String FirstDistVal = TrainingbyClass.instance(FERM_exe.get(0)).stringValue(i);
-							//System.out.println("Attribut d'indice: "+i+" FirstDistVal: "+FirstDistVal);
-							for (int j=0; j<nbrInstFer;)
-							{
-								if(TrainingbyClass.instance(FERM_exe.get(j)).stringValue(i)== FirstDistVal) 
-								{
-									cmpt++;
-									if(cmpt==nbrInstFer)
-									{
-										FERM_att.add(TrainingbyClass.instance(FERM_exe.get(0)).stringValue(i));
-										//System.out.println(" ---> ok ");
-									}
-									j++;
-								}
-								else
-								{
-									j=nbrInstFer;
-									FERM_att.add(nl); 
-									//System.out.println(" ---> null ");
-								}
-							}
-						}
-						
-						if(m_Debug)
-						{
-						System.out.println ("\nFermeture d'attributs est de taille : "+ FERM_att.size()+" : ");
-							for(int i=0; i<FERM_att.size(); i++)
-								System.out.print (FERM_att.get(i)+" , ");
-						}
-													
-						//On retourne le concept Pertinent comme un vecteur 
-						ArrayList <String> CP= new ArrayList <String>();
-						for (int i=0; i< (int) inst.numAttributes()-1;i++)
-								CP.add(FERM_att.get(i));
-						
-						Classification_Rule r = new Classification_Rule(CP,cl,inst.attribute(inst.classIndex()).value(cl));
-						classifierNC.add(r);
-				    }
-			}
-	    }
-	    */
-
-	    /* G�n�ration d'un classifieur de type CNC � partir de la fermeture 
-	     * des valeurs nominales de l'attribut nominal qui maximise le Gain Informationel
-	     */
-	    /*
-	    if(critere == 3)
-	    {
-	    	ArrayList <Integer> instDistVal =new ArrayList <Integer> ();
-	    	
-			for(int indDistVal=0; indDistVal<inst.numDistinctValues(m_Attribute.index()); indDistVal++)
-			{
-				instDistVal.clear();
-				
-				for(int j=0; j<inst.numInstances(); j++)
-				{
-					//System.out.print((j+1)+"i�me instance: "+inst.instance(j).stringValue(m_Attribute.index()) +" - "+ inst.attribute(m_Attribute.index()).value(indDistVal));
-					if( inst.instance(j).stringValue(m_Attribute.index()) == inst.attribute(m_Attribute.index()).value(indDistVal))
-					{
-						instDistVal.add(j);
-					//	System.out.println("     OK");					
-					}
-					//else
-						//System.out.println("     NO");
-				}
-				
-				if(instDistVal.size()!=0)
-				{
-					//Extraires les exemples associ�s a cet attribut
-					ArrayList <Integer> FERM_exe = new ArrayList <Integer> ();	
-					ArrayList <String> FERM_att = new ArrayList <String> ();	
-			
-					//Liste des instances verifiant la fermeture
-					for(int i=0; i<inst.numInstances(); i++)
-					{
-						if( inst.instance(i).stringValue(m_Attribute.index()) == m_Attribute.value(indDistVal))
-							FERM_exe.add(i);
-					}
-					int nbrInstFer = FERM_exe.size();
-					
-					if(m_Debug)
-					{	
-						System.out.print("\nFermeture d'instances:\n\tTaille : "+ nbrInstFer+"\n\tLes indices : ");
-						for(int i=0; i<nbrInstFer; i++)
-							System.out.print (" - "+FERM_exe.get(i));
-						System.out.println();
-						for(int i=0; i<nbrInstFer; i++)
-							System.out.println(FERM_exe.get(i)+" : "+inst.instance(FERM_exe.get(i)).toString());
-					}
-					
-					//Liste des attributs associ�s � la fermeture ??????????????????????
-					//System.out.println("Extraction des attributs associ�s � cette fermeture");
-					String nl= "-null-";
-					for(int i=0; i< (int) inst.numAttributes()-1;i++)
-					{
-						int cmpt=0;
-						String FirstDistVal = inst.instance(FERM_exe.get(0)).stringValue(i);
-						//System.out.println("Attribut d'indice: "+i+" FirstDistVal: "+FirstDistVal);
-						for (int j=0; j<nbrInstFer;)
-						{
-							if(inst.instance(FERM_exe.get(j)).stringValue(i)== FirstDistVal) 
-							{
-								cmpt++;
-								if(cmpt==nbrInstFer)
-								{
-									FERM_att.add(inst.instance(FERM_exe.get(0)).stringValue(i));
-									//System.out.println(" ---> ok ");
-								}
-								j++;
-							}
-							else
-							{
-								j=nbrInstFer;
-								FERM_att.add(nl); 
-								//System.out.println(" ---> null ");
-							}
-						}
-					}
-					
-					if(m_Debug)
-					{
-					System.out.println ("\nFermeture d'attributs est de taille : "+ FERM_att.size()+" : ");
-					for(int i=0; i<FERM_att.size(); i++)
-						System.out.print (FERM_att.get(i)+" , ");
-					}
-					
-					
-					//Extraire la classe majoritaire associ�e//		
-					int [] nbClasse = new int[inst.numClasses()];			
-					for(int k=0;k<inst.numClasses();k++)
-						nbClasse[k]=0;
-						
-					//Parcourir les exemples associ�e � ce concept
-					//System.out.println();
-					for(int j=0;j<nbrInstFer;j++)
-						nbClasse[(int)inst.instance(FERM_exe.get(j)).classValue()]++;
-						
-						
-					//Detertminer l'indice de la classe associ�
-					int indiceMax=0;
-					for(int i=0;i<inst.numClasses();i++)
-						if(nbClasse[i]>nbClasse[indiceMax])
-							indiceMax=i;
-					
-					if(m_Debug)	{
-						System.out.println ("\nLa Classe Majoritaire est d'indice: "+ indiceMax+" : "+inst.attribute(inst.classIndex()).value(indiceMax));
-						System.out.println ("Liste des des attribut de la fermeture");
-						for (int o=0;o<FERM_att.size();o++)
-							System.out.print (FERM_att.get(o)+" , ");
-						System.out.println ("");
-					}
-							
-					//On retourne le concept Pertinent comme un vecteur 
-					ArrayList <String> CP= new ArrayList <String>();
-					for (int i=0; i< (int) inst.numAttributes()-1;i++)
-							CP.add(FERM_att.get(i));
-					
-					Classification_Rule r = new Classification_Rule(CP,indiceMax,inst.attribute(inst.classIndex()).value(indiceMax));
-					
-					classifierNC.add(r);
-					}
-			}
-			
-	    }
-	    */
 
 	return classifierNC;
 	}
