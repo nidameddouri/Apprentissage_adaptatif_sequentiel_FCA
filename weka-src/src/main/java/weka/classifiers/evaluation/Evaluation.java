@@ -4978,7 +4978,7 @@ public class Evaluation implements Summarizable, RevisionHandler, Serializable {
    */
   protected void updateMargins(double[] predictedDistribution, int actualClass,
     double weight) {
-
+	  
     double probActual = predictedDistribution[actualClass];
     double probNext = 0;
 

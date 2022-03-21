@@ -19,7 +19,7 @@
  *
  */
 
-package weka.classifiers.rules;
+package weka.classifiers.fca;
 
 
 import weka.attributeSelection.*;
@@ -80,7 +80,7 @@ import weka.filters.Filter;
  * @author Eibe Frank (eibe@cs.waikato.ac.nz)
  * @version $Revision: 12024 $
  */
-public class testConceptLearning extends AbstractClassifier implements
+public class CANC_Acuna_Bournonville extends AbstractClassifier implements
   WeightedInstancesHandler, Sourcable {
 
   /** for serialization */
@@ -639,7 +639,7 @@ protected void buildClassifierWithNominalClosure(Instances LearningData) throws 
    * @param argv the options
    */
   public static void main(String[] argv) {
-    runClassifier(new testConceptLearning(), argv);
+    runClassifier(new CANC_Acuna_Bournonville(), argv);
   }
   
   public ArrayList<Classification_Rule> ExtraireRegleFermNom(Instances inst, int critere) throws Exception {
